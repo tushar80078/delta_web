@@ -2,17 +2,19 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import PublicRoutes from "./PublicRoutes";
 import AuthenticatedRoutes from "./AuthRoutes";
 import Unauthorized from "../pages/public/Unauthorized";
+import useUserDetails from "@/hooks/useUserDtails";
+
 
 const Root = () => {
-  const isAuthenticated = false;
-  const userRole = 'admin'; // Replace with actual user role
+  const { isLoggedIn, role } = useUserDetails();
 
   return (
     <Routes>
-      {isAuthenticated ? (
+
+      {isLoggedIn ? (
         <>
-        {/**-------------  Authenticated Routes -------------**/}
-        <Route path="/app/*" element={<AuthenticatedRoutes userRole={userRole} />} />
+          {/**-------------  Authenticated Routes -------------**/}
+          <Route path="/app/*" element={<AuthenticatedRoutes userRole={role} />} />
         </>
       ) : (
         <>
@@ -20,6 +22,14 @@ const Root = () => {
           <Route path="/*" element={<PublicRoutes />} />
         </>
       )}
+
+
+      <Route
+        path="/"
+        element={
+          isLoggedIn ? <AuthenticatedRoutes userRole={role} /> : <PublicRoutes />
+        }
+      />
 
       {/**-------------  Catch All Unmatched Routes -------------**/}
       <Route path="/*" element={<Unauthorized />} />
