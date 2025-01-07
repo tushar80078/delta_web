@@ -1,10 +1,23 @@
-import { useSelector } from "react-redux";
+import { setActiveModule } from "@/redux/store/apiSlice/reducer/user";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const useUserDetails = () => {
-    const { isLoggedIn, userDetails, } = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    const { isLoggedIn, userDetails, layoutDetails } = useSelector(state => state.user);
 
-    return { isLoggedIn, role: userDetails.role, data: userDetails };
+    /* User  */
+    const userName = userDetails?.firstName ? `${userDetails?.firstName}` : 'User';
+    const profileImage = userDetails?.profileImage ? userDetails.profileImage : 'https://ui.shadcn.com/avatars/shadcn.jpg';
+
+    /* Layout */
+    const activeModule = layoutDetails?.activeModule;
+
+    const setActiveModuleFn = ({ modlueName }) => {
+        dispatch(setActiveModule(modlueName))
+    }
+
+    return { isLoggedIn, role: userDetails.role, data: { ...userDetails, userName, profileImage }, activeModule, setActiveModuleFn };
 };
 
 export default useUserDetails;
