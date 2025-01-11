@@ -14,7 +14,7 @@ import apiSlice from "./apiSlice/index";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
+  whitelist: ["user", "layout"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

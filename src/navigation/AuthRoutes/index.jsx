@@ -1,10 +1,9 @@
 import { Route, Navigate, Routes, useLocation } from 'react-router-dom';
-import UserHome from "../../pages/auth/HomePage";
+import UserHome from "../../pages/auth/Admin/HomePage";
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Unauthorized from '../../pages/public/Unauthorized';
-import WithNavbar from '@/layout';
-import Courses from '@/pages/auth/Courses';
+import Courses from '@/pages/auth/Admin/Courses';
 import { BookOpenText, Home } from 'lucide-react';
 
 
@@ -60,28 +59,26 @@ const AuthenticatedRoutes = ({ userRole }) => {
 
 
   return (
-    <WithNavbar>
-      <Routes>
-        {/**-------------  Conditionally Redering All Routes On The Basis Of Role -------------**/}
+    <Routes>
+      {/**-------------  Conditionally Redering All Routes On The Basis Of Role -------------**/}
 
+      <Route
+        path='/'
+        element={<Navigate replace to={`${Location.pathname}app/user-home`} />}
+
+      />
+
+      {authRoutesState.map((route) => (
         <Route
-          path='/'
-          element={<Navigate replace to={`${Location.pathname}app/user-home`} />}
-
+          key={route.path}
+          path={route.path}
+          element={route.element}
         />
+      ))}
 
-        {authRoutesState.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={route.element}
-          />
-        ))}
-
-        {/**-------------  Fallback for unauthorized access -------------**/}
-        <Route path="/*" element={<Navigate to="/app/unauthorized" />} />
-      </Routes>
-    </WithNavbar>
+      {/**-------------  Fallback for unauthorized access -------------**/}
+      <Route path="/*" element={<Navigate to="/app/unauthorized" />} />
+    </Routes>
   );
 };
 

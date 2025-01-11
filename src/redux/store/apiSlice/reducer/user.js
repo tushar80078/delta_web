@@ -14,15 +14,11 @@ const initialUserData =
     "updatedAt": ""
 }
 
-const initialLayoutDetails = {
-    activeModule: ''
-}
 
 
 let initialState = {
     isLoggedIn: false,
     userDetails: initialUserData,
-    layoutDetails: initialLayoutDetails,
 }
 
 export const userSlice = createSlice({
@@ -38,13 +34,11 @@ export const userSlice = createSlice({
             state.userDetails = initialUserData;
             localStorage.removeItem("token");
         },
-        setActiveModule: (state, action) => {
-            state.layoutDetails.activeModule = action.payload;
-        }
+
     },
 });
 
 
-export const { loginUser, logOutUser, setActiveModule } = userSlice.actions
+export const { loginUser, logOutUser } = userSlice.actions
 
 export default userSlice.reducer

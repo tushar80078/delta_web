@@ -1,8 +1,8 @@
 
 import {
+    AlignLeft,
     BadgeCheck,
     Bell,
-    ChevronsUpDown,
     CreditCard,
     LogOut,
     Sparkles,
@@ -56,20 +56,20 @@ export function Footer() {
         <SidebarMenu >
             <SidebarMenuItem >
                 <DropdownMenu >
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger asChild className="rounded-none mx-0 px-0 bg-[#0F172A] text-white hover:bg-[#0F172A] hover:text-white">
                         <SidebarMenuButton
                             size="lg"
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                            className="data-[state=open]:text-blue-500 border-none bg-[#0F172A] active:bg-[#0F172A]   focus-visible:ring-0"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
                                 <AvatarImage src={data.profileImage} alt={"U"} />
                                 <AvatarFallback className="rounded-lg">U</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">{data.userName}</span>
-                                <span className="truncate text-xs">{data.email}</span>
+                                <span className="truncate poppins-regular">Hii, {data.userName}</span>
+
                             </div>
-                            <ChevronsUpDown className="ml-auto size-4" />
+                            <AlignLeft className="ml-auto size-4" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
