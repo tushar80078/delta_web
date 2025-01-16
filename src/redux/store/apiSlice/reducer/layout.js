@@ -2,7 +2,12 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 const initialAdminLayoutDetails = {
-    activeModule: ''
+    activeModule: '',
+    activeCourseCategory: 'All',
+    pagination: {
+        page: 1,
+        pageSize: 10
+    }
 }
 
 
@@ -16,11 +21,14 @@ export const layoutSlice = createSlice({
     reducers: {
         setAdminActiveModule: (state, action) => {
             state.admin.activeModule = action.payload;
-        }
+        },
+        setActiveCourseCategory: (state, action) => {
+            state.admin.activeCourseCategory = action.payload;
+        },
     },
 });
 
 
-export const { setAdminActiveModule } = layoutSlice.actions
+export const { setAdminActiveModule, setActiveCourseCategory } = layoutSlice.actions
 
 export default layoutSlice.reducer

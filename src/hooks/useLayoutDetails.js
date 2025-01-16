@@ -1,4 +1,4 @@
-import { setAdminActiveModule } from "@/redux/store/apiSlice/reducer/layout";
+import { setActiveCourseCategory, setAdminActiveModule } from "@/redux/store/apiSlice/reducer/layout";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -9,11 +9,17 @@ const useLayoutDetails = () => {
     /*Admin Layout */
     const adminActiveModule = admin?.activeModule;
 
+    const activeCourseCategory = admin?.activeCourseCategory;
+
     const setAdminActiveModuleFn = ({ modlueName }) => {
         dispatch(setAdminActiveModule(modlueName))
     }
 
-    return { adminActiveModule, setAdminActiveModuleFn };
+    const setActiveCourseCategoryFn = ({ category }) => {
+        dispatch(setActiveCourseCategory(category))
+    }
+
+    return { adminActiveModule, activeCourseCategory, setAdminActiveModuleFn, setActiveCourseCategoryFn };
 };
 
 export default useLayoutDetails;

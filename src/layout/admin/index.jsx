@@ -89,7 +89,7 @@ const WithNavbar = ({ children }) => {
 
             <SidebarTriggerComponent />
 
-            <div className='px-4 py-3 overflow-auto w-[100%]'>
+            <div className='px-4 py-3 overflow-auto w-[100%] bg-[#F8FAFA]'>
                 {children}
             </div>
         </SidebarProvider >

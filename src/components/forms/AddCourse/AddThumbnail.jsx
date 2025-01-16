@@ -1,15 +1,20 @@
-import { useCallback, useRef, useState } from 'react'
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import { AddAttachment } from './PrevieFile';
+import { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { ArrowUpRightFromSquare } from "lucide-react";
+import { FaFileImage } from "react-icons/fa";
 
-const AddThumbnail = () => {
-    const [file, setFile] = useState(null);
+const AddThumbnail = ({ setThumbnailImage }) => {
+    const [fileUrl, setFileUrl] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleFileSelect = (event) => {
         const selectedFile = event.target.files[0];
-        setFile(selectedFile);
+        if (selectedFile) {
+            setThumbnailImage(selectedFile); // Update parent state
+            const url = URL.createObjectURL(selectedFile);
+            setFileUrl(url);
+        }
     };
 
     const handleAddThumbnailClick = () => {
@@ -18,19 +23,8 @@ const AddThumbnail = () => {
         }
     };
 
-
-
-    const fileUrl = useCallback(() => {
-        if (file) {
-            URL.createObjectURL(file);
-        }
-    }, [file])
-    // const fileType = file.type.split('/')[0];
-
-
     return (
-        <div className="mt-4 flex gap-4">
-
+        <div className="mt-4 flex flex-col gap-4">
             <input
                 type="file"
                 ref={fileInputRef}
@@ -38,21 +32,38 @@ const AddThumbnail = () => {
                 onChange={handleFileSelect}
             />
 
-            <Button onClick={handleAddThumbnailClick}>
-                <Plus />
-                Add Thumbnail
-            </Button>
+            <div className="flex gap-2">
+                <Button onClick={handleAddThumbnailClick} className="flex items-center gap-2">
+                    <Plus />
+                    Add Thumbnail
+                </Button>
 
-            {
-                file && <AddAttachment
-                    key={fileUrl}
-                    item={{ fileUrl, name: file.name }}
-                />
-            }
+                {fileUrl && (
+                    <div className="flex w-full justify-between border rounded-md px-2 py-1 items-center">
+                        <div className="flex items-center gap-2">
+                            <FaFileImage size={20} className="fill-orange-400" />
+                            <span
+                                className="truncate max-w-xs text-sm"
+                                title="Thumbnail Image"
+                            >
+                                {fileUrl.split('/').pop()}
+                            </span>
+                        </div>
 
-
+                        <a
+                            href={fileUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Open"
+                            className="text-sky-600 flex items-center"
+                        >
+                            <ArrowUpRightFromSquare className="h-5 w-6" />
+                        </a>
+                    </div>
+                )}
+            </div>
         </div>
-    )
-}
+    );
+};
 
-export default AddThumbnail
+export default AddThumbnail;
