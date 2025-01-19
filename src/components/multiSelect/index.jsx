@@ -12,6 +12,7 @@ const MultiSelect = ({ options, value, onChange, placeholder, defaultValue }) =>
             border: 'none',
             boxShadow: isFocused ? 'none' : 'none',
             '&:hover': { borderColor: 'none' },
+            zIndex: 0,
         }),
 
         option: (styles, { isSelected, isFocused }) => ({
@@ -47,6 +48,7 @@ const MultiSelect = ({ options, value, onChange, placeholder, defaultValue }) =>
                 color: 'white',
             },
         }),
+
 
     };
 

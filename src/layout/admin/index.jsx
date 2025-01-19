@@ -8,7 +8,7 @@ import { Header } from './components/header';
 import { Footer } from './components/footer';
 import useLayoutDetails from '@/hooks/useLayoutDetails';
 import { useNavigate } from 'react-router-dom';
-import { authRoutes } from '@/navigation/AuthRoutes';
+import authRoutes from '@/navigation/AuthRoutes/routes';
 import { cn } from '@/lib/utils';
 import SidebarTriggerComponent from './components/triggerButton';
 
@@ -24,6 +24,7 @@ const WithNavbar = ({ children }) => {
         setAdminActiveModuleFn({ modlueName: moduleName })
         navigate(`/app${path}`);
     }
+
 
     return (
         <SidebarProvider
@@ -51,6 +52,7 @@ const WithNavbar = ({ children }) => {
                                         "px-5 py-4 mb-1 cursor-pointer  border-l-2 border-l-[#0F172A]  transition-colors ",
                                         adminActiveModule === item.title && "border-l-2 border-l-blue-500 transition-colors"
                                     )}
+                                    onClick={() => navigateToModule({ moduleName: item.title, path: item.path })}
                                 >
                                     <div>
                                         <span
@@ -58,7 +60,7 @@ const WithNavbar = ({ children }) => {
                                                 "flex text-white items-center transition-all duration-300 ease-in-out",
                                                 adminActiveModule === item.title && "text-blue-500"
                                             )}
-                                            onClick={() => navigateToModule({ moduleName: item.title, path: item.path })}
+
                                         >
                                             <item.icon className="mr-3 text-sm transition-all duration-300 ease-in-out" size={20} />
                                             <span

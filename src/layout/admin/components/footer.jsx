@@ -34,6 +34,7 @@ import { purge } from "@/redux/store"
 import { useNavigate } from "react-router-dom"
 import toast from "react-hot-toast"
 import useUserDetails from "@/hooks/useUserDtails"
+import { resetLayoutReducer } from "@/redux/store/apiSlice/reducer/layout"
 
 export function Footer() {
     const navigate = useNavigate();
@@ -44,6 +45,7 @@ export function Footer() {
     const logoutUser = async () => {
         try {
             dispatch(logOutUser());
+            dispatch(resetLayoutReducer());
             purge();
             localStorage.removeItem('token');
             navigate('/');

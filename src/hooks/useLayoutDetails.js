@@ -1,4 +1,4 @@
-import { setActiveCourseCategory, setAdminActiveModule } from "@/redux/store/apiSlice/reducer/layout";
+import { changePaginationReducer, setActiveCourseCategory, setAdminActiveModule } from "@/redux/store/apiSlice/reducer/layout";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -19,7 +19,19 @@ const useLayoutDetails = () => {
         dispatch(setActiveCourseCategory(category))
     }
 
-    return { adminActiveModule, activeCourseCategory, setAdminActiveModuleFn, setActiveCourseCategoryFn };
+    const changePaginationFn = ({ page, pageSize }) => {
+        dispatch(changePaginationReducer({ page, pageSize }))
+    }
+
+    return {
+        adminActiveModule,
+        activeCourseCategory,
+        setAdminActiveModuleFn,
+        setActiveCourseCategoryFn,
+        adminPagination: { ...admin?.coursePagination },
+        changePaginationFn
+
+    };
 };
 
 export default useLayoutDetails;

@@ -1,40 +1,7 @@
 import { Route, Navigate, Routes, useLocation } from 'react-router-dom';
-import UserHome from "../../pages/auth/Admin/HomePage";
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Unauthorized from '../../pages/public/Unauthorized';
-import Courses from '@/pages/auth/Admin/Courses';
-import { BookOpenText, Home } from 'lucide-react';
-
-
-
-export const authRoutes = [
-  {
-    path: '/user-home',
-    access: ['Admin'],
-    description: 'This is for when user login and see first page after login',
-    element: <UserHome />,
-    isShowOnSidebar: true,
-    icon: Home,
-    title: 'Home'
-  },
-  {
-    path: '/courses',
-    access: ['Admin'],
-    description: 'This is for courses',
-    element: <Courses />,
-    title: 'Courses',
-    icon: BookOpenText,
-    isShowOnSidebar: true,
-  },
-  {
-    path: '/unauthorized',
-    access: ['All'],
-    description: 'If user hit any other Route',
-    element: <Unauthorized />,
-    isShowOnSidebar: false,
-  }
-]
+import authRoutes from './routes';
 
 
 const AuthenticatedRoutes = ({ userRole }) => {
@@ -45,7 +12,7 @@ const AuthenticatedRoutes = ({ userRole }) => {
 
   useEffect(() => {
     // Conditionally Filtering All Routes On The Basis Of Role
-    const routes = authRoutes.filter(route =>
+    const routes = authRoutes?.filter(route =>
       route.access.includes(userRole) || route.access.includes('All')
     );
 

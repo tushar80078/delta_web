@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import apiSlice from ".";
+import apiSlice, { RTK_TAGS } from ".";
 
 export const courseApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -7,31 +7,33 @@ export const courseApi = apiSlice.injectEndpoints({
             query: (data) => ({
                 url: "/course",
                 method: "POST",
-                body: data
+                body: data,
             }),
             transformErrorResponse: (response) => {
                 const error = response?.data?.err || "Something went wrong";
-                toast('Error');
+                toast.error(error);
                 return error;
-            }
+            },
+            invalidatesTags: [RTK_TAGS.GET_COURSES],
         }),
         getCourses: builder.query({
             query: (data) => ({
                 url: "/course/getCourses",
                 method: "POST",
-                body: data
+                body: data,
             }),
             transformErrorResponse: (response) => {
                 const error = response?.data?.err || "Something went wrong";
-                toast('Error');
+                toast.error(error);
                 return error;
-            }
-        })
-    })
-})
+            },
+            providesTags: [RTK_TAGS.GET_COURSES],
+        }),
+    }),
+});
 
 export const {
     useCreateCourseMutation,
     useGetCoursesQuery,
-    useLazyGetCoursesQuery
+    useLazyGetCoursesQuery,
 } = courseApi;

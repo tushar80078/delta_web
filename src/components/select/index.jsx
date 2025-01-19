@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import {
     Select,
     SelectContent,
@@ -8,21 +6,20 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
-const SelectComponent = ({ options, placeholder = "Select", className = "w-[180px]", onChange, defaultValue }) => {
-    const [selectedValue, setSelectedValue] = useState(defaultValue);
-
-    const handleChange = (value) => {
-        setSelectedValue(value);
-        if (onChange) onChange(value);
-    };
-
+const SelectComponent = ({
+    options,
+    placeholder = "Select",
+    className = "w-[180px]",
+    onChange,
+    value,
+}) => {
     return (
-        <Select onValueChange={handleChange} value={selectedValue}>
+        <Select onValueChange={onChange} value={value}>
             <SelectTrigger className={className}>
                 <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-                {options.map((option) => (
+                {options?.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                         {option.label}
                     </SelectItem>

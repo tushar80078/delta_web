@@ -7,56 +7,70 @@ import LabelTooltip from "@/molecules/formLabelTooltip";
 import MultiSelect from "@/components/multiSelect";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { CreateCourseSchema } from "@/lib/form-schema";
 import { useCreateCourseMutation } from "@/redux/store/apiSlice/course.api";
 import { useGetCategoriesQuery } from "@/redux/store/apiSlice/category.api";
 import Loader from "@/components/loader";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import SelectComponent from "@/components/select";
+import toast from "react-hot-toast";
+import FieldError from "@/molecules/fieldError";
+import useLayoutDetails from "@/hooks/useLayoutDetails";
 
 const AddCourse = ({ onClose }) => {
+    const { setActiveCourseCategoryFn } = useLayoutDetails();
     const [createCourseFn, { isLoading: isCreating }] = useCreateCourseMutation();
     const { data: categoryData, isLoading: isFetchingCategories } = useGetCategoriesQuery();
+    const [thumbnailImage, setThumbnailImage] = useState(null);
 
     const {
         control,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        watch
     } = useForm({
         resolver: yupResolver(CreateCourseSchema),
         defaultValues: {
-            categories: [{ value: "All", label: "All" }],
+            isCourseFree: "false"
         },
     });
 
+    const isCourseFree = watch("isCourseFree");
+
     const categoryOptions = useMemo(() => {
         if (categoryData?.data?.length) {
-            return [
-                { value: "All", label: "All" },
-                ...categoryData.data.map((category) => ({
+            return categoryData.data
+                .filter((category) => category.category !== "All") // Exclude categories with "All"
+                .map((category) => ({
                     value: category.category,
                     label: category.category,
-                })),
-            ];
+                }));
         }
-        return [{ value: "All", label: "All" }];
+        return [];
     }, [categoryData]);
+
 
     const onSubmit = async (data) => {
         try {
             const formData = new FormData();
             formData.append("courseName", data.courseName);
             formData.append("courseScore", data.courseScore);
-            formData.append("categories", JSON.stringify(data.categories));
+            formData.append("categories", JSON.stringify([...data.categories, { value: "All", label: "All" }]));
             formData.append("courseDescription", data.courseDescription);
-            formData.append("isFree", true);
+            formData.append("isFree", data.isCourseFree == "true");
+            formData.append("courseFees", parseFloat(data.courseFees) || 0.00);
 
-            if (data.thumbnailImage) {
-                formData.append("thumbnailImage", data.thumbnailImage);
+            if (thumbnailImage) {
+                formData.append("thumbnailImage", thumbnailImage);
             }
 
             const response = await createCourseFn(formData);
-            console.log("response", response);
+
+            if (response?.data?.success) {
+                setActiveCourseCategoryFn({ category: "All" })
+                toast.success("Course Added Successfully");
+                onClose();
+            }
         } catch (error) {
             console.error("Error from", error);
         }
@@ -84,6 +98,9 @@ const AddCourse = ({ onClose }) => {
                                 />
                             )}
                         />
+
+                        <FieldError error={errors?.courseName?.message} />
+
                     </div>
 
                     <div className="flex-1">
@@ -102,6 +119,9 @@ const AddCourse = ({ onClose }) => {
                                 />
                             )}
                         />
+
+                        <FieldError error={errors?.courseScore?.message} />
+
                     </div>
                 </div>
 
@@ -109,23 +129,32 @@ const AddCourse = ({ onClose }) => {
                     <div className="flex-1">
                         <Label isRequired>Is course free?</Label>
 
-                        <RadioGroup defaultValue="Yes" className="flex items-center mt-3">
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="Yes" id="r1" />
-                                <Label htmlFor="r1">Yes</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="no" id="r2" />
-                                <Label htmlFor="r2">No</Label>
-                            </div>
-                        </RadioGroup>
+                        <Controller
+                            control={control}
+                            name="isCourseFree"
+                            defaultValue={false}
+                            render={({ field: { onChange, value } }) => (
+                                <SelectComponent
+                                    options={[
+                                        { value: "true", label: "Yes" },
+                                        { value: "false", label: "No" },
+                                    ]}
+                                    className="w-full mt-2"
+                                    onChange={onChange}
+                                    value={value}
+                                />
+                            )}
+                        />
+
+                        <FieldError error={errors?.isCourseFree?.message} />
+
                     </div>
 
                     <div className="flex-1">
                         <Label isRequired>Fees</Label>
                         <Controller
                             control={control}
-                            name="courseScore"
+                            name="courseFees"
                             render={({ field: { onChange, value, name } }) => (
                                 <Input
                                     id={name}
@@ -134,9 +163,13 @@ const AddCourse = ({ onClose }) => {
                                     placeholder="30"
                                     onChange={onChange}
                                     value={value}
+                                    disabled={isCourseFree === "true"}
                                 />
                             )}
                         />
+
+                        <FieldError error={errors?.courseFees?.message} />
+
                     </div>
                 </div>
 
@@ -157,10 +190,11 @@ const AddCourse = ({ onClose }) => {
                                 options={categoryOptions}
                                 value={value}
                                 key={name}
-                                defaultValue={{ value: "All", label: "All" }}
                             />
                         )}
                     />
+
+                    <FieldError error={errors?.categories?.message} />
                 </div>
 
 
@@ -180,9 +214,14 @@ const AddCourse = ({ onClose }) => {
                             />
                         )}
                     />
+
+                    <FieldError error={errors?.courseDescription?.message} />
+
                 </div>
 
-                <AddThumbnail />
+                <AddThumbnail setThumbnailImage={(file) => {
+                    setThumbnailImage(file)
+                }} />
 
                 <div className="mt-4 flex justify-end gap-4">
                     <Button type="submit">Add</Button>

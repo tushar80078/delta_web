@@ -22,6 +22,12 @@ export const CreateCourseSchema = yup.object().shape({
     courseName: yup.string().required("Please enter Course Name"),
     courseDescription: yup.string().required("Please enter Description"),
     courseScore: yup.string().required("Please enter Course Score"),
-    categories: yup.array().required("Atlist one category required"),
-    isCourseFree: yup.boolean(),
+    categories: yup.array().required("At least one category required"),
+    isCourseFree: yup
+        .string()
+        .required("Please specify if the course is free"),
+    courseFees: yup.number().when("isCourseFree", {
+        is: (isCourseFree) => isCourseFree == "false",
+        then: () => yup.number().required("Course fees required when Course is not Free"),
+    })
 });

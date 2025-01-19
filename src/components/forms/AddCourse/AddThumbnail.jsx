@@ -33,7 +33,7 @@ const AddThumbnail = ({ setThumbnailImage }) => {
             />
 
             <div className="flex gap-2">
-                <Button onClick={handleAddThumbnailClick} className="flex items-center gap-2">
+                <Button onClick={handleAddThumbnailClick} className="flex items-center gap-2" type="button">
                     <Plus />
                     Add Thumbnail
                 </Button>

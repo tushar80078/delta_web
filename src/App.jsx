@@ -1,11 +1,13 @@
-import {HashRouter}  from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import Root from "./navigation";
+import { Toaster } from "react-hot-toast";
 
 
 const App = () => {
   return (
     <HashRouter>
-      <Root/>
+      <Toaster position="top-center" />
+      <Root />
     </HashRouter>
   )
 }
