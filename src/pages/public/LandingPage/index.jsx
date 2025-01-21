@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingCart } from "react-icons/fi";
 import homepage from "../../../assets/images/homepage.png";
-import logo from "../../../assets/images/logo.png";
+import Logo from "@/assets/Logo.svg";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { courseRate } from "./Data";
@@ -13,21 +13,23 @@ const Landing = () => {
 
   return (
     <>
+      {/* navbar */}
       <nav className="flex px-10 justify-evenly space-x-5  items-center py-2 h-[70px] border-b ">
         <div className="h-[10vh]  ml-4 flex items-center">
-          <img src={logo} alt="Logo" width="40" />
+          <img src={Logo} alt="Logo" width="40" />
           <span className="font-poppins font-semibold text-xl pl-1">Delta</span>
         </div>
 
         <h2 className="text-gray-700">Categories</h2>
-        <div className=" w-[40%] flex items-center border border-gray-700 px-2  rounded-lg">
+        <div className="w-[40%] flex items-center border border-gray-700 px-2 rounded-lg">
           <CiSearch size={25} />
           <Input
-            type="text "
-            className="border-none outline-none text-base text-gray-700 "
+            type="text"
+            className=" border-none focus-visible:border-none focus-visible:ring-0  text-base text-gray-700"
             placeholder="Search courses"
           />
         </div>
+
         <h2 className="text-gray-700">Teach on delta</h2>
         <div className="flex items-center space-x-7">
           <FiShoppingCart size={25} />
@@ -45,10 +47,29 @@ const Landing = () => {
           </Button>{" "}
         </div>
       </nav>
+      {/* hero-section */}
 
-      <div>
-        <img src={homepage} alt="" />
+      <div className="flex  items-center gap-[9rem] mx-20 ">
+        {/* left section */}
+        <div className=" px-2 mx-5  w-[620px]  ">
+          <h1 className="text-5xl font-semibold ">
+            Unlock Your Potential with Delta
+          </h1>
+          <p className="text-[16px] py-5 text-gray-700 leading-relaxed">
+            Welcome to Byway, where learning knows no bounds. We believe that
+            education is the key to personal and professional growth, and we're
+            here to guide you on your journey to success.{" "}
+          </p>
+          <Button className="border-none py-6 my-3 text-base bg-blue-500 ">
+            Start your instructor journey
+          </Button>
+        </div>
+        {/* right section */}
+        <div className=" py-11  ">
+          <img src={homepage} alt="" className="max-h-min w-auto" />
+        </div>
       </div>
+      {/* course rating */}
       <div className="grid grid-cols-4 bg-gray-50 py-10">
         {courseRate.map(({ id, number }) => {
           return (
