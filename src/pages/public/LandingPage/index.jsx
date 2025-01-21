@@ -7,14 +7,15 @@ import Logo from "@/assets/Logo.svg";
 import { Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { courseRate } from "./Data";
+import Navbar from "../Navbar";
 
 const Landing = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <>
       {/* navbar */}
-      <nav className="flex px-10 justify-evenly space-x-5  items-center py-2 h-[70px] border-b ">
+      {/* <nav className="flex px-10 justify-evenly space-x-5  items-center py-2 h-[70px] border-b ">
         <div className="h-[10vh]  ml-4 flex items-center">
           <img src={Logo} alt="Logo" width="40" />
           <span className="font-poppins font-semibold text-xl pl-1">Delta</span>
@@ -46,10 +47,11 @@ const Landing = () => {
             Sign up
           </Button>{" "}
         </div>
-      </nav>
+      </nav> */}
+      <Navbar />
       {/* hero-section */}
 
-      <div className="flex  items-center gap-[9rem] mx-20 ">
+      <div className="flex  items-center gap-[6rem] mx-20  pt-16">
         {/* left section */}
         <div className=" px-2 mx-5  w-[620px]  ">
           <h1 className="text-5xl font-semibold ">
@@ -66,7 +68,7 @@ const Landing = () => {
         </div>
         {/* right section */}
         <div className=" py-11  ">
-          <img src={homepage} alt="" className="max-h-min w-auto" />
+          <img src={homepage} alt="" className="" />
         </div>
       </div>
       {/* course rating */}
