@@ -16,7 +16,10 @@ import toast from "react-hot-toast";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [loginFn, { error, isError, isLoading }] = useLoginMutation();
-  console.log(error);
+
+  // console.log(error);
+  console.log("is error", isError);
+  console.log("is isLoading", isLoading);
 
   const {
     control,
@@ -27,6 +30,7 @@ const LoginPage = () => {
   });
   const onSubmit = async (data) => {
     const respones = await loginFn(data);
+
     if (respones.data) {
       navigate("/");
     } else {
@@ -121,7 +125,7 @@ const LoginPage = () => {
         </div>
         {/* right */}
         <div className="bg-gray-400 w-3/6">
-          <img src={loginPageImage} alt="" className="w-full h-full" />
+          <img src={loginPageImage} alt="" className="h-full w-full" />
         </div>
       </div>
     </>
