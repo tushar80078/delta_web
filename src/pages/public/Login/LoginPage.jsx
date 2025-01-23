@@ -17,10 +17,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [loginFn, { error, isError, isLoading }] = useLoginMutation();
 
-  // console.log(error);
-  console.log("is error", isError);
-  console.log("is isLoading", isLoading);
-
   const {
     control,
     handleSubmit,
@@ -30,6 +26,7 @@ const LoginPage = () => {
   });
   const onSubmit = async (data) => {
     const respones = await loginFn(data);
+    console.log(respones.data);
 
     if (respones.data) {
       navigate("/");

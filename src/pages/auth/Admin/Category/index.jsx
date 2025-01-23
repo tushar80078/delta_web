@@ -1,12 +1,12 @@
-import WithNavbar from "@/layout/admin"
-import Screen from "./Screen"
+import WithNavbar from "@/layout/admin";
+import Screen from "./Screen2";
 
 const Courses = () => {
-    return (
-        <WithNavbar>
-            <Screen />
-        </WithNavbar>
-    )
-}
+  return (
+    <WithNavbar>
+      <Screen />
+    </WithNavbar>
+  );
+};
 
-export default Courses
+export default Courses;

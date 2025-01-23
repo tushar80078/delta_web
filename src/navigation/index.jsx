@@ -4,17 +4,18 @@ import AuthenticatedRoutes from "./AuthRoutes";
 import Unauthorized from "../pages/public/Unauthorized";
 import useUserDetails from "@/hooks/useUserDtails";
 
-
 const Root = () => {
   const { isLoggedIn, role } = useUserDetails();
 
   return (
     <Routes>
-
       {isLoggedIn ? (
         <>
           {/**-------------  Authenticated Routes -------------**/}
-          <Route path="/app/*" element={<AuthenticatedRoutes userRole={role} />} />
+          <Route
+            path="/app/*"
+            element={<AuthenticatedRoutes userRole={role} />}
+          />
         </>
       ) : (
         <>
@@ -23,11 +24,14 @@ const Root = () => {
         </>
       )}
 
-
       <Route
         path="/"
         element={
-          isLoggedIn ? <AuthenticatedRoutes userRole={role} /> : <PublicRoutes />
+          isLoggedIn ? (
+            <AuthenticatedRoutes userRole={role} />
+          ) : (
+            <PublicRoutes />
+          )
         }
       />
 
