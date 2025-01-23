@@ -31,3 +31,9 @@ export const CreateCourseSchema = yup.object().shape({
         then: () => yup.number().required("Course fees required when Course is not Free"),
     })
 });
+
+export const  CreateCategorySchema=yup.object().shape({
+    categoryName: yup.string().required("Please enter Category Name"),
+
+
+})

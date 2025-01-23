@@ -1,3 +1,4 @@
+import AddCategory from "@/components/forms/AddCategory";
 import AddCourse from "@/components/forms/AddCourse";
 import Loader from "@/components/loader";
 import { DialogComponent } from "@/components/modal";
@@ -25,14 +26,13 @@ const Screen = () => {
     pageSize: adminPagination?.pageSize || 10,
     category: activeCourseCategory,
   });
-  console.log(courseData);
+  // console.log(courseData);
 
   const { data: categoryData, isLoading: isCategoryLoading } =
     useGetCategoriesQuery({
       page: adminPagination?.page || 1,
       pageSize: adminPagination?.pageSize || 10,
     });
-  console.log(categoryData);
 
   const handlePageChange = (page) => {
     changePaginationFn({ page, pageSize: undefined });
@@ -157,9 +157,9 @@ const Screen = () => {
         onClose={() => setModalState(false)}
         title={"Category Information"}
         description={"Add all required information"}
-        modalSize="lg"
+        modalSize="sm"
       >
-        <AddCourse onClose={() => setModalState(false)} />
+        <AddCategory onClose={() => setModalState(false)} />
       </DialogComponent>
     </div>
   );
