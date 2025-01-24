@@ -9,7 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMemo, useState } from "react";
 import { CreateCourseSchema } from "@/lib/form-schema";
-import { useCreateCourseMutation } from "@/redux/store/apiSlice/course.api";
+import { useCreateCourseMutation, useLazyGetCoursesQuery } from "@/redux/store/apiSlice/course.api";
 import { useGetCategoriesQuery } from "@/redux/store/apiSlice/category.api";
 import Loader from "@/components/loader";
 import SelectComponent from "@/components/select";
@@ -20,8 +20,11 @@ import useLayoutDetails from "@/hooks/useLayoutDetails";
 const AddCourse = ({ onClose }) => {
   const { setActiveCourseCategoryFn } = useLayoutDetails();
   const [createCourseFn, { isLoading: isCreating }] = useCreateCourseMutation();
+
   const { data: categoryData, isLoading: isFetchingCategories } =
     useGetCategoriesQuery();
+
+  const [getCourseFn] = useLazyGetCoursesQuery();
   const [thumbnailImage, setThumbnailImage] = useState(null);
 
   const {
@@ -71,6 +74,11 @@ const AddCourse = ({ onClose }) => {
 
       if (response?.data?.success) {
         setActiveCourseCategoryFn({ category: "All" });
+        getCourseFn({
+          category: 'All',
+          page: 1,
+          pageSize: 12,
+        })
         toast.success("Course Added Successfully");
         onClose();
       }

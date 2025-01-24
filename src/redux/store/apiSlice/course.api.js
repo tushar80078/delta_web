@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import apiSlice, { RTK_TAGS } from ".";
+import apiSlice from ".";
 
 export const courseApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -14,7 +14,6 @@ export const courseApi = apiSlice.injectEndpoints({
                 toast.error(error);
                 return error;
             },
-            invalidatesTags: [RTK_TAGS.GET_COURSES],
         }),
         getCourses: builder.query({
             query: (data) => ({
@@ -27,7 +26,6 @@ export const courseApi = apiSlice.injectEndpoints({
                 toast.error(error);
                 return error;
             },
-            providesTags: [RTK_TAGS.GET_COURSES],
         }),
     }),
 });
