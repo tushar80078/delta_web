@@ -18,7 +18,7 @@ export const categoryApi = apiSlice.injectEndpoints({
                 toast.error(error);
                 return error;
             },
-            // invalidatesTags: [RTK_TAGS.GET_COURSES],
+            invalidatesTags: [RTK_TAGS.GET_Categories],
         }),
         getCategories: builder.query({
             query: () => ({

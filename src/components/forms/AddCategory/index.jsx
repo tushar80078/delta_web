@@ -54,7 +54,7 @@ const AddCategory = ({ onClose }) => {
                 <Input
                   id={name}
                   className="mt-2"
-                  placeholder="Next.js"
+                  placeholder="Category Name"
                   onChange={onChange}
                   value={value}
                 />
