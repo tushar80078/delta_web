@@ -10,8 +10,10 @@ import Heading from "@/molecules/heading"
 import { useGetCategoriesQuery } from "@/redux/store/apiSlice/category.api";
 import { useGetCoursesQuery } from "@/redux/store/apiSlice/course.api";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Screen = () => {
+    const navigate = useNavigate();
     const { activeCourseCategory, setActiveCourseCategoryFn, adminPagination, changePaginationFn } = useLayoutDetails();
     const [modalState, setModalState] = useState(false);
 
@@ -63,8 +65,8 @@ const Screen = () => {
                 <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4  gap-6   ">
                     {
                         courseData?.data?.map((ele, index) => {
-                            return <div key={index}>
-                                <div className="border rounded-sm px-3 py-3 bg-white text-sm " >
+                            return <div key={index} className="cursor-pointer " onClick={() => navigate(`/app/courses/${ele.id}`)}>
+                                <div className="border rounded-sm px-3 py-3 bg-white text-sm  " >
                                     <div className="mt-2  border-b pb-3 flex justify-between ">
                                         <div className="poppins-semibold text-[17px] flex-wrap">
                                             {ele.courseName}
