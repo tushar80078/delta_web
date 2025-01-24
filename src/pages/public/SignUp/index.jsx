@@ -61,11 +61,11 @@ const SignupPage = () => {
   return (
     <HomepageLayout>
       <div className="h-screen  flex   pt-16  ">
-        {/* left */}
+        {/* left Section*/}
         <div className="bg-gray-400 w-2/5">
           <img src={loginPageImage} alt="" className=" " />
         </div>
-        {/* right */}
+        {/* right section*/}
 
         <div className="w-3/5 flex justify-center  items-center">
           <div className=" h-[55vh] w-[80%]  ">
