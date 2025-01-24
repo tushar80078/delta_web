@@ -27,6 +27,17 @@ export const courseApi = apiSlice.injectEndpoints({
                 return error;
             },
         }),
+        getCourseById: builder.query({
+            query: (data) => ({
+                url: `/course/${data?.courseId}`,
+                method: "GET",
+            }),
+            transformErrorResponse: (response) => {
+                const error = response?.data?.err || "Something went wrong";
+                toast.error(error);
+                return error;
+            },
+        }),
     }),
 });
 
@@ -34,4 +45,6 @@ export const {
     useCreateCourseMutation,
     useGetCoursesQuery,
     useLazyGetCoursesQuery,
+    useGetCourseByIdQuery,
+    useLazyGetCourseByIdQuery
 } = courseApi;

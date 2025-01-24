@@ -1,9 +1,76 @@
-import WithNavbar from "@/layout/admin"
+import WithNavbar from "@/layout/admin";
+import Heading from "@/molecules/heading";
+import { useGetCourseByIdQuery } from "@/redux/store/apiSlice/course.api";
+import { useNavigate, useParams } from "react-router-dom";
+import constants from "./constants";
+import useLayoutDetails from "@/hooks/useLayoutDetails";
+import { cn } from "@/lib/utils";
 
 const CourseInformation = () => {
-    return (
-        <WithNavbar>CourseInformation</WithNavbar>
-    )
-}
+    const navigate = useNavigate();
+    const { courseId } = useParams();
+    const { setActiveCourseTabFn, activeCourseTab } = useLayoutDetails();
 
-export default CourseInformation
+    console.log('activeCourseTab', activeCourseTab)
+
+    // Fetch course data
+    const { data: courseData } = useGetCourseByIdQuery(
+        { courseId: courseId },
+        { skip: !courseId }
+    );
+
+    // Redirect if courseId is not present
+    if (!courseId) {
+        navigate("/app/courses");
+        return null; // Prevent rendering
+    }
+
+    // Set default active tab
+    if (!activeCourseTab) {
+        setActiveCourseTabFn(constants?.courseTabs[0]?.name);
+    }
+
+    // Extract course name for heading
+    const courseName = courseData?.data?.courseName || "Loading...";
+
+    // Render tab content
+    const ActiveTabComponent = constants?.courseTabs.find(
+        (tab) => tab.name === activeCourseTab
+    )?.Component;
+
+
+    return (
+        <WithNavbar>
+            <div>
+                {/* Heading */}
+                <div className="mt-2">
+                    <Heading title={courseName} />
+                </div>
+
+                {/* Navigation Tabs */}
+                <nav className="flex mt-5 w-full border-b-2 gap-5 pl-2">
+                    {constants?.courseTabs?.map((tab, index) => (
+                        <div
+                            key={index}
+                            className={cn(
+                                "poppins-regular text-[14px] cursor-pointer  py-2 transition-all",
+                                tab.name === activeCourseTab &&
+                                "text-blue-500 poppins-semibold border-b-2 border-b-blue-500"
+                            )}
+                            onClick={() => setActiveCourseTabFn({ tabName: tab.name })}
+                        >
+                            {tab.name}
+                        </div>
+                    ))}
+                </nav>
+
+                {/* Active Tab Content */}
+                <div className="mt-5">
+                    {ActiveTabComponent && (<ActiveTabComponent />)}
+                </div>
+            </div>
+        </WithNavbar>
+    );
+};
+
+export default CourseInformation;
