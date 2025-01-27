@@ -4,6 +4,7 @@ import { DialogComponent } from "@/components/modal";
 import { PaginationComponent } from "@/components/pagination";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import useLayoutDetails from "@/hooks/useLayoutDetails";
 import { cn } from "@/lib/utils";
 import Heading from "@/molecules/heading"
@@ -46,108 +47,114 @@ const Screen = () => {
             </div>
 
             {/* Categories */}
-            <div className="flex w-full overflow-auto py-2 gap-2">
-                {
-                    categoryData?.data?.map((ele, index) => {
-                        return <div key={index} className={cn("border transition-all rounded-sm px-3 cursor-pointer py-1 bg-white text-sm ",
-                            activeCourseCategory === ele.category && "bg-primary text-secondary"
-                        )}
-                            onClick={() => setActiveCourseCategoryFn({ category: ele.category })}
-                        >
-                            {ele.category}
-                        </div>
-                    })
-                }
-            </div>
+            <ScrollArea className="w-full">
+                <div className="flex w-full overflow-auto py-4 gap-2">
 
-            {/* Courses */}
-            <div className="h-[75vh] overflow-auto">
-                <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4  gap-6   ">
                     {
-                        courseData?.data?.map((ele, index) => {
-                            return <div key={index} className="cursor-pointer " onClick={() => navigate(`/app/courses/${ele.id}`)}>
-                                <div className="border rounded-sm px-3 py-3 bg-white text-sm  " >
-                                    <div className="mt-2  border-b pb-3 flex justify-between ">
-                                        <div className="poppins-semibold text-[17px] flex-wrap">
-                                            {ele.courseName}
-                                        </div>
-                                        <Badge className={cn("border rounded-sm border-emerald-500 bg-transparent text-emerald-600  shadow-md  poppins-regular hover:bg-emerald-600 hover:text-white cursor-pointer ",
-                                            !ele.isFree && "text-rose-500 border-rose-500 hover:bg-red-500 hover:text-white ")}>
-                                            {ele.isFree ? 'Free' : 'Paid'}
-                                        </Badge>
-                                    </div>
-
-                                    <div className="mt-2 grid grid-cols-3 gap-1">
-                                        {/* Price */}
-                                        <div>
-                                            <div className="poppins-semibold text-[14px]">
-                                                $50
-                                            </div>
-                                            <div className=" text-[12px]">
-                                                Price
-                                            </div>
-                                        </div>
-
-                                        {/* Lessons */}
-                                        <div>
-                                            <div className="poppins-semibold text-[14px]">
-                                                54
-                                            </div>
-                                            <div className=" text-[12px]">
-                                                Chapters
-                                            </div>
-                                        </div>
-
-                                        {/* Students */}
-                                        <div>
-                                            <div className="poppins-semibold text-[14px]">
-                                                288
-                                            </div>
-                                            <div className=" text-[12px]">
-                                                Students
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-2 grid grid-cols-3 gap-1">
-                                        {/* Certifications */}
-                                        <div>
-                                            <div className="poppins-semibold text-[14px]">
-                                                54
-                                            </div>
-                                            <div className=" text-[12px]">
-                                                Certificates
-                                            </div>
-                                        </div>
-
-                                        {/* Lessons */}
-                                        <div>
-                                            <div className="poppins-semibold text-[14px]">
-                                                84
-                                            </div>
-                                            <div className=" text-[12px]">
-                                                Reviews
-                                            </div>
-                                        </div>
-
-                                        {/* Students */}
-                                        <div>
-                                            <div className="poppins-semibold text-[14px]">
-                                                500
-                                            </div>
-                                            <div className=" text-[12px]">
-                                                Added To Shelf
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                </div>
+                        categoryData?.data?.map((ele, index) => {
+                            return <div key={index} className={cn("border transition-all text-nowrap rounded-sm px-3 cursor-pointer py-1 bg-white text-sm ",
+                                activeCourseCategory === ele.category && "bg-primary text-secondary"
+                            )}
+                                onClick={() => setActiveCourseCategoryFn({ category: ele.category })}
+                            >
+                                {ele.category}
                             </div>
                         })
                     }
                 </div>
-            </div>
+                <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+
+            {/* Courses */}
+            <ScrollArea>
+                <div className="h-[73vh] pt-2 mr-4">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4  gap-6   ">
+                        {
+                            courseData?.data?.map((ele, index) => {
+                                return <div key={index} className="cursor-pointer " onClick={() => navigate(`/app/courses/${ele.id}`)}>
+                                    <div className="border rounded-sm px-3 py-3 bg-white text-sm  " >
+                                        <div className="mt-2  border-b pb-3 flex justify-between ">
+                                            <div className="poppins-semibold text-[17px] flex-wrap">
+                                                {ele.courseName}
+                                            </div>
+                                            <Badge className={cn("border rounded-sm border-emerald-500 bg-transparent text-emerald-600  shadow-md  poppins-regular hover:bg-emerald-600 hover:text-white cursor-pointer ",
+                                                !ele.isFree && "text-rose-500 border-rose-500 hover:bg-red-500 hover:text-white ")}>
+                                                {ele.isFree ? 'Free' : 'Paid'}
+                                            </Badge>
+                                        </div>
+
+                                        <div className="mt-2 grid grid-cols-3 gap-1">
+                                            {/* Price */}
+                                            <div>
+                                                <div className="poppins-semibold text-[14px]">
+                                                    $50
+                                                </div>
+                                                <div className=" text-[12px]">
+                                                    Price
+                                                </div>
+                                            </div>
+
+                                            {/* Lessons */}
+                                            <div>
+                                                <div className="poppins-semibold text-[14px]">
+                                                    54
+                                                </div>
+                                                <div className=" text-[12px]">
+                                                    Chapters
+                                                </div>
+                                            </div>
+
+                                            {/* Students */}
+                                            <div>
+                                                <div className="poppins-semibold text-[14px]">
+                                                    288
+                                                </div>
+                                                <div className=" text-[12px]">
+                                                    Students
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-2 grid grid-cols-3 gap-1">
+                                            {/* Certifications */}
+                                            <div>
+                                                <div className="poppins-semibold text-[14px]">
+                                                    54
+                                                </div>
+                                                <div className=" text-[12px]">
+                                                    Certificates
+                                                </div>
+                                            </div>
+
+                                            {/* Lessons */}
+                                            <div>
+                                                <div className="poppins-semibold text-[14px]">
+                                                    84
+                                                </div>
+                                                <div className=" text-[12px]">
+                                                    Reviews
+                                                </div>
+                                            </div>
+
+                                            {/* Students */}
+                                            <div>
+                                                <div className="poppins-semibold text-[14px]">
+                                                    500
+                                                </div>
+                                                <div className=" text-[12px]">
+                                                    Added To Shelf
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            })
+                        }
+                    </div>
+                </div>
+            </ScrollArea>
 
             {/* Pagination */}
             <div className="mt-5">

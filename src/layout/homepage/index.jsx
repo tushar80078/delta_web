@@ -10,8 +10,8 @@ const HomepageLayout = ({ children }) => {
 
     return (
         <>
-            <nav className="flex px-10 justify-evenly space-x-5  items-center py-2 h-[70px] border-b fixed top-0 right-0 left-0 bg-white z-10 ">
-                <div className="h-[10vh]  ml-4 flex items-center">
+            <nav className="flex px-10 justify-evenly space-x-5  items-center py-2 h-[9vh] border-b fixed top-0 right-0 left-0 bg-white z-10 ">
+                <div className="h-[10vh]  ml-4 flex items-center cursor-pointer" onClick={() => navigate('/')}>
                     <img src={Logo} alt="Logo" width="40" />
                     <span className="font-poppins font-semibold text-xl pl-1">Delta</span>
                 </div>
@@ -44,7 +44,9 @@ const HomepageLayout = ({ children }) => {
                 </div>
             </nav>
 
-            {children}
+            <div className="h-[100vh] overflow-auto">
+                {children}
+            </div>
         </>
     )
 }

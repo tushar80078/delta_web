@@ -8,7 +8,8 @@ import { logOutUser } from "./reducer/user";
 import { resetLayoutReducer } from "./reducer/layout";
 
 export const RTK_TAGS = {
-    GET_COURSES: "GET_COURSES"
+    GET_COURSES: "GET_COURSES",
+    GET_CATEGORY: "GET_CATEGORY"
 };
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {

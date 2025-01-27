@@ -63,7 +63,7 @@ const SignupPage = () => {
       <div className="h-screen  flex   pt-16  ">
         {/* left Section*/}
         <div className="bg-gray-400 w-2/5">
-          <img src={loginPageImage} alt="" className=" " />
+          <img src={loginPageImage} alt="" className="" />
         </div>
         {/* right section*/}
 

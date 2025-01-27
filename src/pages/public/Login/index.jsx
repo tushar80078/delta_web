@@ -41,7 +41,7 @@ export const signInMethodsDetails = [
 const LoginPage = () => {
 
   const navigate = useNavigate();
-  const [loginFn, { error }] = useLoginMutation();
+  const [loginFn, { error, isLoading }] = useLoginMutation();
 
   const {
     control,
@@ -67,7 +67,7 @@ const LoginPage = () => {
       <div className="h-[100vh]  flex  mx-5 pt-16  ">
         {/* left section */}
         <div className="w-4/6 flex justify-center items-center ">
-          <div className=" h-[55vh] w-[80%]  ml-20">
+          <div className=" w-[70%]  ">
             <h1 className="text-center text-gray-900 text-3xl font-medium mb-5">
               Sign in to your account
             </h1>
@@ -116,7 +116,10 @@ const LoginPage = () => {
                 </div>
 
                 <div>
-                  <Button className="bg-gray-900 py-5 border hover:bg-white hover:border-gray-600 hover:text-gray-700 text-white font-medium">
+                  <Button
+                    className="bg-gray-900 min-w-36 py-5 border hover:bg-white hover:border-gray-600 hover:text-gray-700 text-white font-medium"
+                    loading={isLoading}
+                  >
                     Sign in <FiArrowRight />
                   </Button>
                 </div>
@@ -150,8 +153,8 @@ const LoginPage = () => {
         </div>
 
         {/* right section*/}
-        <div className="bg-gray-400 w-3/6">
-          <img src={loginPageImage} alt="" className="h-full w-full" />
+        <div className="bg-gray-400 w-3/6 overflow-auto">
+          <img src={loginPageImage} alt="" className=" object-cover " />
         </div>
       </div>
     </HomepageLayout>

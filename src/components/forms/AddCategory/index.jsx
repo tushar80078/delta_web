@@ -10,8 +10,8 @@ import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 const AddCategory = ({ onClose }) => {
-  const [createCategoryFn, { isLoading: isCreating }] =
-    useCreateCategoryMutation();
+
+  const [createCategoryFn, { isLoading: isCreating }] = useCreateCategoryMutation();
 
   const {
     control,
@@ -20,16 +20,13 @@ const AddCategory = ({ onClose }) => {
   } = useForm({
     resolver: yupResolver(CreateCategorySchema),
   });
+
   const onSubmit = async (data) => {
     try {
-      let categoryData = { category: data.categoryName };
-
-      console.log(categoryData);
-      const response = await createCategoryFn(categoryData);
-      console.log(response);
+      const response = await createCategoryFn({ category: data.categoryName });
 
       if (response?.data?.success) {
-        toast.success("Course Added Successfully");
+        toast.success("Category Added Successfully");
         onClose();
       }
     } catch (error) {
@@ -37,11 +34,10 @@ const AddCategory = ({ onClose }) => {
     }
   };
 
-  const loading = isCreating;
 
   return (
     <div>
-      {loading && <Loader />}
+      {isCreating && <Loader />}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-between gap-2">

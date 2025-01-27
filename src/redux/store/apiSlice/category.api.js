@@ -1,13 +1,13 @@
 import toast from "react-hot-toast";
 import apiSlice from ".";
 import { transformResponse } from "@/lib/transferResponse";
+import { RTK_TAGS } from ".";
 
 export const categoryApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
 
         createCategory: builder.mutation({
             query: (data) => ({
-
                 url: "/category",
                 method: "POST",
                 body: data,
@@ -18,14 +18,15 @@ export const categoryApi = apiSlice.injectEndpoints({
                 toast.error(error);
                 return error;
             },
-            // invalidatesTags: [RTK_TAGS.GET_COURSES],
+            invalidatesTags: [RTK_TAGS.GET_CATEGORY, RTK_TAGS.GET_COURSES]
         }),
         getCategories: builder.query({
             query: () => ({
                 url: '/category',
                 method: "GET",
             }),
-            transformErrorResponse: transformResponse
+            transformErrorResponse: transformResponse,
+            providesTags: [RTK_TAGS.GET_CATEGORY]
         })
     })
 })

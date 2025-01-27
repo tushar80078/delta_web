@@ -32,8 +32,6 @@ export const CreateCourseSchema = yup.object().shape({
     })
 });
 
-export const  CreateCategorySchema=yup.object().shape({
+export const CreateCategorySchema = yup.object().shape({
     categoryName: yup.string().required("Please enter Category Name"),
-
-
 })
