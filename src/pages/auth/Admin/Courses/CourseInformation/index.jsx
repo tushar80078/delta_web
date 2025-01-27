@@ -5,13 +5,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import constants from "./constants";
 import useLayoutDetails from "@/hooks/useLayoutDetails";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 const CourseInformation = () => {
     const navigate = useNavigate();
+
     const { courseId } = useParams();
     const { setActiveCourseTabFn, activeCourseTab } = useLayoutDetails();
-
-    console.log('activeCourseTab', activeCourseTab)
 
     // Fetch course data
     const { data: courseData } = useGetCourseByIdQuery(
@@ -19,15 +19,16 @@ const CourseInformation = () => {
         { skip: !courseId }
     );
 
-    // Redirect if courseId is not present
-    if (!courseId) {
-        navigate("/app/courses");
-        return null; // Prevent rendering
-    }
+    // useEffect
+    useEffect(() => {
+        if (courseId) {
+            setActiveCourseTabFn({ tabName: constants?.courseTabs[0]?.name });
+        }
+    }, [courseId])
 
     // Set default active tab
     if (!activeCourseTab) {
-        setActiveCourseTabFn(constants?.courseTabs[0]?.name);
+        setActiveCourseTabFn({ tabName: constants?.courseTabs[0]?.name });
     }
 
     // Extract course name for heading
@@ -38,6 +39,11 @@ const CourseInformation = () => {
         (tab) => tab.name === activeCourseTab
     )?.Component;
 
+    // Redirect if courseId is not present
+    if (!courseId) {
+        navigate("/app/courses");
+        return null; // Prevent rendering
+    }
 
     return (
         <WithNavbar>
@@ -65,7 +71,7 @@ const CourseInformation = () => {
                 </nav>
 
                 {/* Active Tab Content */}
-                <div className="mt-5">
+                <div className="px-4 py-3  ">
                     {ActiveTabComponent && (<ActiveTabComponent />)}
                 </div>
             </div>
