@@ -1,38 +1,35 @@
-import toast from "react-hot-toast";
-import apiSlice from ".";
+import apiSlice, { RTK_TAGS } from ".";
 import { transformResponse } from "@/lib/transferResponse";
-import { RTK_TAGS } from ".";
+
 
 export const lessonApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
 
-        createCategory: builder.mutation({
-            query: (data) => ({
-                url: "/category",
+        createLesson: builder.mutation({
+            query: ({ lessonName, courseId }) => ({
+                url: "/lessons",
                 method: "POST",
-                body: data,
-            }),
-
-            transformErrorResponse: (response) => {
-                const error = response?.data?.err || "Something went wrong";
-                toast.error(error);
-                return error;
-            },
-            invalidatesTags: [RTK_TAGS.GET_CATEGORY, RTK_TAGS.GET_COURSES]
-        }),
-        getCategories: builder.query({
-            query: () => ({
-                url: '/category',
-                method: "GET",
+                body: { lessonName, courseId },
             }),
             transformErrorResponse: transformResponse,
-            providesTags: [RTK_TAGS.GET_CATEGORY]
+            invalidatesTags: [RTK_TAGS.GET_CHAPTERS]
+        }),
+
+        getLessons: builder.query({
+            query: ({ page, pageSize, courseId, pagination = true }) => ({
+                url: "/lessons/getLessons",
+                method: "POST",
+                body: { page, pageSize, courseId, pagination },
+            }),
+            transformErrorResponse: transformResponse,
+            providesTags: [RTK_TAGS.GET_CHAPTERS]
         })
     })
+
 })
 
 export const {
-    useCreateCategoryMutation,
-    useGetCategoriesQuery,
-    useLazyGetCategoriesQuery
+    useCreateLessonMutation,
+    useGetLessonsQuery,
+    useLazyGetLessonsQuery
 } = lessonApi;

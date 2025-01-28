@@ -4,14 +4,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreateChapterSchema } from "@/lib/form-schema";
 import FieldError from "@/molecules/fieldError";
-import { useCreateCategoryMutation } from "@/redux/store/apiSlice/category.api";
+import { useCreateLessonMutation, useLazyGetLessonsQuery } from "@/redux/store/apiSlice/lesson.api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useParams } from "react-router-dom";
 
 const AddCategory = ({ onClose }) => {
 
-    const [createCategoryFn, { isLoading: isCreating }] = useCreateCategoryMutation();
+    const [createLessonFn, { isLoading: isCreating }] = useCreateLessonMutation();
+    const [getLessonsFn] = useLazyGetLessonsQuery();
+    const { courseId } = useParams();
 
     const {
         control,
@@ -23,9 +26,10 @@ const AddCategory = ({ onClose }) => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await createCategoryFn({ category: data.categoryName });
+            const response = await createLessonFn({ lessonName: data.lessonName, courseId });
 
             if (response?.data?.success) {
+                // getLessonsFn({ page: 1, pageSize: 10, courseId });
                 toast.success("Chapter Added Successfully");
                 onClose();
             }
@@ -34,6 +38,7 @@ const AddCategory = ({ onClose }) => {
         }
     };
 
+    console.log('errors', errors)
 
     return (
         <div>

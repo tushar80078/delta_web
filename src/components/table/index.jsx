@@ -13,7 +13,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 // import { DataTablePagination } from './TablePagination';
-import { cn } from '@/lib/utils';
+// import { cn } from '@/lib/utils';
 
 export function CustomDataTable({
     columns,
@@ -35,7 +35,7 @@ export function CustomDataTable({
                         <TableRow key={headerGroup.id}>
                             {headerGroup.headers.map(header => {
                                 return (
-                                    <TableHead key={header.id}>
+                                    <TableHead key={header.id} className="bg-blue-200/10 text-black">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -55,11 +55,13 @@ export function CustomDataTable({
                                 key={row.id}
                                 data-state={row.getIsSelected() && 'selected'}
                                 onClick={() => onRowClick && onRowClick(row)}
-                                className={cn(
-                                    row.index % 2 === 0 ? ' bg-white ' : 'bg-gray-100',
-                                )}>
+                            // className={cn(
+                            //     row.index % 2 === 0 ? ' bg-white' : 'bg-gray-100',
+                            // )}
+
+                            >
                                 {row.getVisibleCells().map(cell => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell key={cell.id} className="py-4">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
@@ -75,6 +77,6 @@ export function CustomDataTable({
                 </TableBody>
             </Table>
             {/* <DataTablePagination table={table} /> */}
-        </div>
+        </div >
     );
 }

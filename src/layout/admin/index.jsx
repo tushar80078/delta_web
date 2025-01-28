@@ -7,10 +7,11 @@ import {
 import { Header } from './components/header';
 import { Footer } from './components/footer';
 import useLayoutDetails from '@/hooks/useLayoutDetails';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import authRoutes from '@/navigation/AuthRoutes/routes';
 import { cn } from '@/lib/utils';
 import SidebarTriggerComponent from './components/triggerButton';
+import { useEffect } from 'react';
 
 
 
@@ -18,12 +19,21 @@ const WithNavbar = ({ children }) => {
 
     const navigate = useNavigate();
     const { adminActiveModule, setAdminActiveModuleFn } = useLayoutDetails();
+    const { pathname } = useLocation();
 
 
     const navigateToModule = ({ moduleName, path }) => {
         setAdminActiveModuleFn({ modlueName: moduleName })
         navigate(`/app${path}`);
     }
+
+    useEffect(() => {
+        let activeModule = authRoutes.find(ele => `/app${ele.path}` == pathname);
+
+        if (activeModule && activeModule.title !== adminActiveModule && activeModule.isShowOnSidebar) {
+            setAdminActiveModuleFn({ modlueName: activeModule.title })
+        }
+    }, [pathname])
 
 
     return (

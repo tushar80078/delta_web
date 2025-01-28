@@ -1,4 +1,4 @@
-import { changePaginationReducer, setActiveCourseCategory, setAdminActiveModule, setActiveCourseTab } from "@/redux/store/apiSlice/reducer/layout";
+import { changePaginationReducer, setActiveCourseCategory, setAdminActiveModule, setActiveCourseTab, changeCategoryPaginationReducer, changeChapterPaginationReducer } from "@/redux/store/apiSlice/reducer/layout";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -31,6 +31,14 @@ const useLayoutDetails = () => {
         dispatch(setActiveCourseTab(tabName))
     }
 
+    /* Category */
+    const changeCategoryPaginationFn = ({ page, pageSize }) => {
+        dispatch(changeCategoryPaginationReducer({ page, pageSize }))
+    }
+
+    const changeChapterPaginationFn = ({ page, pageSize }) => {
+        dispatch(changeChapterPaginationReducer({ page, pageSize }))
+    }
     return {
         adminActiveModule,
         activeCourseCategory,
@@ -39,7 +47,11 @@ const useLayoutDetails = () => {
         adminPagination: { ...admin?.coursePagination },
         changePaginationFn,
         setActiveCourseTabFn,
-        activeCourseTab
+        activeCourseTab,
+        changeCategoryPaginationFn,
+        categoryPagination: { ...admin?.categoryPagination },
+        changeChapterPaginationFn,
+        chapterPagination: { ...admin?.chapterPagination }
     };
 };
 

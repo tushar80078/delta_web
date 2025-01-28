@@ -38,5 +38,5 @@ export const CreateCategorySchema = yup.object().shape({
 
 export const CreateChapterSchema = yup.object().shape({
     lessonName: yup.string().required("Please enter chaptername"),
-    isFree: yup.string().required("Please select if the course is free"),
+    // isFree: yup.string().required("Please select if the course is free"),
 })

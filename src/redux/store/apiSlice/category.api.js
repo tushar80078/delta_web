@@ -18,7 +18,7 @@ export const categoryApi = apiSlice.injectEndpoints({
                 toast.error(error);
                 return error;
             },
-            invalidatesTags: [RTK_TAGS.GET_CATEGORY, RTK_TAGS.GET_COURSES]
+            invalidatesTags: [RTK_TAGS.GET_CATEGORY, RTK_TAGS.GET_CATEGORY_PAGINATION]
         }),
         getCategories: builder.query({
             query: () => ({
@@ -27,6 +27,15 @@ export const categoryApi = apiSlice.injectEndpoints({
             }),
             transformErrorResponse: transformResponse,
             providesTags: [RTK_TAGS.GET_CATEGORY]
+        }),
+        getCategoriesWithPagination: builder.query({
+            query: (data) => ({
+                url: '/category/getCategories',
+                method: "POST",
+                body: data
+            }),
+            transformErrorResponse: transformResponse,
+            providesTags: [RTK_TAGS.GET_CATEGORY_PAGINATION]
         })
     })
 })
@@ -34,5 +43,7 @@ export const categoryApi = apiSlice.injectEndpoints({
 export const {
     useCreateCategoryMutation,
     useGetCategoriesQuery,
-    useLazyGetCategoriesQuery
+    useLazyGetCategoriesQuery,
+    useGetCategoriesWithPaginationQuery,
+    useLazyGetCategoriesWithPaginationQuery
 } = categoryApi;

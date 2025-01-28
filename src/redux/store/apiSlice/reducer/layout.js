@@ -8,6 +8,14 @@ const initialAdminLayoutDetails = {
         page: 1,
         pageSize: 12
     },
+    categoryPagination: {
+        page: 1,
+        pageSize: 24
+    },
+    chapterPagination: {
+        page: 1,
+        pageSize: 12
+    },
     course: {
         activeTab: ''
     }
@@ -41,6 +49,24 @@ export const layoutSlice = createSlice({
                 state.admin.coursePagination.pageSize = action.payload.pageSize
             }
         },
+        changeCategoryPaginationReducer: (state, action) => {
+            if (action.payload.page) {
+                state.admin.categoryPagination.page = action.payload.page
+            }
+
+            if (action.payload.pageSize) {
+                state.admin.categoryPagination.pageSize = action.payload.pageSize
+            }
+        },
+        changeChapterPaginationReducer: (state, action) => {
+            if (action.payload.page) {
+                state.admin.chapterPagination.page = action.payload.page
+            }
+
+            if (action.payload.pageSize) {
+                state.admin.chapterPagination.pageSize = action.payload.pageSize
+            }
+        },
         setActiveCourseTab: (state, action) => {
             state.admin.course.activeTab = action.payload;
         }
@@ -53,7 +79,9 @@ export const {
     setActiveCourseCategory,
     resetLayoutReducer,
     changePaginationReducer,
-    setActiveCourseTab
+    setActiveCourseTab,
+    changeCategoryPaginationReducer,
+    changeChapterPaginationReducer
 } = layoutSlice.actions
 
 export default layoutSlice.reducer

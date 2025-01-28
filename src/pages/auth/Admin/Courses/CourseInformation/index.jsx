@@ -5,11 +5,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import constants from "./constants";
 import useLayoutDetails from "@/hooks/useLayoutDetails";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import { useEffect, } from "react";
 
 const CourseInformation = () => {
     const navigate = useNavigate();
-
     const { courseId } = useParams();
     const { setActiveCourseTabFn, activeCourseTab } = useLayoutDetails();
 
@@ -19,17 +18,19 @@ const CourseInformation = () => {
         { skip: !courseId }
     );
 
-    // useEffect
     useEffect(() => {
-        if (courseId) {
+        if (!courseId) {
+            // Redirect if courseId is not present
+            navigate("/app/courses");
+            return;
+        }
+
+        // If there's no active tab set or if the course changes, set to the first tab
+        if (!activeCourseTab || activeCourseTab === constants.courseTabs[0].name) {
             setActiveCourseTabFn({ tabName: constants?.courseTabs[0]?.name });
         }
-    }, [courseId])
+    }, [courseId, activeCourseTab, setActiveCourseTabFn, navigate]);
 
-    // Set default active tab
-    if (!activeCourseTab) {
-        setActiveCourseTabFn({ tabName: constants?.courseTabs[0]?.name });
-    }
 
     // Extract course name for heading
     const courseName = courseData?.data?.courseName || "Loading...";
@@ -38,12 +39,6 @@ const CourseInformation = () => {
     const ActiveTabComponent = constants?.courseTabs.find(
         (tab) => tab.name === activeCourseTab
     )?.Component;
-
-    // Redirect if courseId is not present
-    if (!courseId) {
-        navigate("/app/courses");
-        return null; // Prevent rendering
-    }
 
     return (
         <WithNavbar>
@@ -59,7 +54,7 @@ const CourseInformation = () => {
                         <div
                             key={index}
                             className={cn(
-                                "poppins-regular text-[14px] cursor-pointer  py-2 transition-all",
+                                "poppins-regular text-[14px] cursor-pointer py-2 transition-all",
                                 tab.name === activeCourseTab &&
                                 "text-blue-500 poppins-semibold border-b-2 border-b-blue-500"
                             )}
@@ -71,8 +66,8 @@ const CourseInformation = () => {
                 </nav>
 
                 {/* Active Tab Content */}
-                <div className="px-4 py-3  ">
-                    {ActiveTabComponent && (<ActiveTabComponent />)}
+                <div className="px-4 py-3">
+                    {ActiveTabComponent && <ActiveTabComponent />}
                 </div>
             </div>
         </WithNavbar>
