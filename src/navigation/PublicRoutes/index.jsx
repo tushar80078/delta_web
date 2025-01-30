@@ -9,6 +9,8 @@ const PublicRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/allCateory" element={<SignupPage />} />
+      <Route path="/allCourses" element={<SignupPage />} />
 
       {/**-------------  Catch-all for unmatched routes -------------**/}
       <Route path="*" element={<Navigate to="/" />} />
