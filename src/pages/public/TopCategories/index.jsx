@@ -1,17 +1,13 @@
-import Loader from "@/components/loader";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import { useGetCateogryAndCoursesQuery } from "@/redux/store/apiSlice/categoryAndCourses.api";
-import React from "react";
-
-import { FaLayerGroup } from "react-icons/fa"; // All
-import { FaCode } from "react-icons/fa"; // Frontend
-import { FaDatabase } from "react-icons/fa"; // Backend
-import { FaLaptopCode } from "react-icons/fa"; // IT
+import { useGetTopCateogryAndCoursesQuery } from "@/redux/store/apiSlice/common.api";
+import { FaLayerGroup } from "react-icons/fa";
+import { FaCode } from "react-icons/fa";
+import { FaDatabase } from "react-icons/fa";
+import { FaLaptopCode } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 
 <MdCategory size={24} className="text-gray-700" />;
@@ -30,12 +26,11 @@ const TopCategories = () => {
     isLoading,
     isError,
     error,
-  } = useGetCateogryAndCoursesQuery();
+  } = useGetTopCateogryAndCoursesQuery();
 
   if (isLoading) {
     return <div>Loading..... </div>;
   }
-  console.log(allData);
 
   return (
     <div className="mx-20 my-10">

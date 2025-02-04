@@ -1,6 +1,4 @@
-import Loader from "@/components/loader";
 import loginPageImage from "../../../assets/images/loginImage.png";
-
 import {
   Card,
   CardContent,
@@ -8,8 +6,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { useGetCateogryAndCoursesQuery } from "@/redux/store/apiSlice/categoryAndCourses.api";
-import React from "react";
+import { useGetTopCateogryAndCoursesQuery } from "@/redux/store/apiSlice/common.api";
 import { FaStar } from "react-icons/fa";
 
 const TopCourses = () => {
@@ -18,12 +15,11 @@ const TopCourses = () => {
     isLoading,
     isError,
     error,
-  } = useGetCateogryAndCoursesQuery();
+  } = useGetTopCateogryAndCoursesQuery();
 
   if (isLoading) {
     return <div>Loading..... </div>;
   }
-  console.log(allData);
 
   return (
     <div className="mx-20 my-10">
