@@ -2,29 +2,26 @@ import { Button } from "@/components/ui/button";
 import homepage from "../../../assets/images/homepage.png";
 import { Plus } from "lucide-react";
 import HomepageLayout from "@/layout/homepage";
-import TopCategories from "../TopCategories/index";
-import TopCourses from "../TopCourses/index";
+import loginPageImage from "../../../assets/images/loginImage.png";
+import { useGetTopCateogryAndCoursesQuery } from "@/redux/store/apiSlice/common.api";
+import { MdCategory } from "react-icons/md";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { categories, courseRate } from "./constants";
+import { FaStar } from "react-icons/fa";
+import { CategorySkeleton, CourseSkeleton } from "./components/LoadingSkeleton";
 
-export const courseRate = [
-  {
-    id: 1,
-    number: 250,
-  },
-  {
-    id: 2,
-    number: 1000,
-  },
-  {
-    id: 3,
-    number: 15,
-  },
-  {
-    id: 4,
-    number: 2400,
-  },
-];
+
 
 const Landing = () => {
+  const { data: categoryCourseData, isFetching } = useGetTopCateogryAndCoursesQuery();
+
+
   return (
     <>
       <HomepageLayout>
@@ -68,8 +65,110 @@ const Landing = () => {
             );
           })}
         </div>
-        <TopCategories />
-        <TopCourses />
+
+        {/* top categories */}
+        {
+          isFetching && <CategorySkeleton />
+        }
+        <div className="mx-20 my-10">
+          <div className="flex justify-between ">
+            <h1 className="text-[22px] font-semibold text-gray-900 ">
+              Top Categories
+            </h1>
+            <button className="text-[14px] text-[#3B82F6]">See all</button>
+          </div>
+          <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
+            {categoryCourseData?.categoryData?.length > 0 &&
+              categoryCourseData?.categoryData
+                ?.filter((_, index) => index <= 3)
+                .map((item, i) => {
+                  return (
+                    <div key={item.id} className="">
+                      {" "}
+                      <Card className="w-[300px] flex justify-center items-center">
+                        <div className="flex flex-col justify-center items-center py-4">
+                          <div className="w-[100px] h-[100px] rounded-full bg-blue-100 flex justify-center items-center ">
+                            {categories[i]?.icon ? (
+                              <div className="text-blue-500 font-normal">
+                                {" "}
+                                {categories[i].icon}
+                              </div>
+                            ) : (
+                              <MdCategory size={40} className="text-blue-600" />
+                            )}
+                          </div>
+
+                          <CardHeader className="py-0 mt-3 font-semibold text-xl">
+                            {item.category}
+                          </CardHeader>
+                          <CardContent className="py-2">12 Courses</CardContent>
+                        </div>
+                      </Card>
+                    </div>
+                  );
+                })}
+          </div>
+        </div>
+
+        {isFetching && <CourseSkeleton />}
+        {/* top courses */}
+        <div className="mx-20 my-10">
+          <div className="flex justify-between ">
+            {" "}
+            <h1 className="text-[22px] font-semibold text-gray-900 ">
+              Top Courses
+            </h1>
+            <button className="text-[14px] text-[#3B82F6]">See all</button>
+          </div>
+          <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
+            {categoryCourseData?.courseData.length > 0 &&
+              categoryCourseData.courseData
+                ?.filter((_, index) => index <= 3)
+                .map((item) => {
+                  return (
+                    <div key={item.id} className="">
+                      <Card className="w-[300px] ">
+                        <div className="w-full p-3">
+                          <div className="w-[100%] py-2 h-[170px] ">
+                            <img
+                              src={loginPageImage}
+                              alt=""
+                              className="h-full w-full rounded object-cover"
+                            />
+                          </div>
+
+                          <CardHeader className="py-0  px-1 font-semibold text-lg text-gray-700">
+                            {item.courseName}
+                          </CardHeader>
+                          <CardDescription className="px-1">
+                            {item.courseDescription}
+                          </CardDescription>
+                          <CardContent className="py-1 px-1 flex gap-3 items-center">
+                            <div className="flex gap-1 text-yellow-500">
+                              <FaStar />
+                              <FaStar />
+                              <FaStar />
+                              <FaStar />
+                              <FaStar />
+                            </div>
+                            <span className="text-sm">(1200 ratings)</span>
+                          </CardContent>
+                          <CardFooter className="px-1 py-1 ">
+                            {" "}
+                            <div className="font-semibold text-lg text-gray-700">
+                              {" "}
+                              $ {item.courseFees}{" "}
+                            </div>
+                          </CardFooter>
+                        </div>
+                      </Card>
+                    </div>
+                  );
+                })}
+          </div>
+        </div>
+
+
       </HomepageLayout>
     </>
   );
