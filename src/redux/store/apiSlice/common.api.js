@@ -1,6 +1,7 @@
 import apiSlice from ".";
 import { transformResponse } from "@/lib/transferResponse";
 import { RTK_TAGS } from ".";
+import toast from "react-hot-toast";
 
 export const categoryAndCoursesApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -12,10 +13,23 @@ export const categoryAndCoursesApi = apiSlice.injectEndpoints({
             transformErrorResponse: transformResponse,
             providesTags: [RTK_TAGS.GET_CATEGORY_COURSES]
         }),
+        getCourseDetailsById: builder.query({
+            query: (data) => ({
+                url: `/category-courses/course/${data?.courseId}`,
+                method: "GET",
+            }),
+            transformErrorResponse: (response) => {
+                const error = response?.data?.err || "Something went wrong";
+                toast.error(error);
+                return error;
+            },
+        }),
     })
 })
 
 export const {
     useGetTopCateogryAndCoursesQuery,
-    useLazyGetTopCateogryAndCoursesQuery
+    useLazyGetTopCateogryAndCoursesQuery,
+    useGetCourseDetailsByIdQuery,
+    useLazyGetCourseDetailsByIdQuery
 } = categoryAndCoursesApi;

@@ -15,12 +15,23 @@ import {
 import { categories, courseRate } from "./constants";
 import { FaStar } from "react-icons/fa";
 import { CategorySkeleton, CourseSkeleton } from "./components/LoadingSkeleton";
-
-
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
-  const { data: categoryCourseData, isFetching } = useGetTopCateogryAndCoursesQuery();
+  const {
+    data: categoryCourseData,
+    isFetching,
+    isLoading,
+  } = useGetTopCateogryAndCoursesQuery();
 
+  const navigate = useNavigate();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const categoryData = categoryCourseData?.data?.categoryData;
+  const courseData = categoryCourseData?.data?.courseData;
 
   return (
     <>
@@ -67,9 +78,7 @@ const Landing = () => {
         </div>
 
         {/* top categories */}
-        {
-          isFetching && <CategorySkeleton />
-        }
+        {isFetching && <CategorySkeleton />}
         <div className="mx-20 my-10">
           <div className="flex justify-between ">
             <h1 className="text-[22px] font-semibold text-gray-900 ">
@@ -78,8 +87,8 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {categoryCourseData?.categoryData?.length > 0 &&
-              categoryCourseData?.categoryData
+            {categoryData.length > 0 &&
+              categoryData
                 ?.filter((_, index) => index <= 3)
                 .map((item, i) => {
                   return (
@@ -121,12 +130,16 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {categoryCourseData?.courseData.length > 0 &&
-              categoryCourseData.courseData
+            {courseData.length > 0 &&
+              courseData
                 ?.filter((_, index) => index <= 3)
                 .map((item) => {
                   return (
-                    <div key={item.id} className="">
+                    <div
+                      key={item.id}
+                      className=""
+                      onClick={() => navigate(`/course/${item.id}`)}
+                    >
                       <Card className="w-[300px] ">
                         <div className="w-full p-3">
                           <div className="w-[100%] py-2 h-[170px] ">
@@ -167,8 +180,6 @@ const Landing = () => {
                 })}
           </div>
         </div>
-
-
       </HomepageLayout>
     </>
   );
