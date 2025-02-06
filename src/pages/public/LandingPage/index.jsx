@@ -19,8 +19,7 @@ import { CategorySkeleton, CourseSkeleton } from "./components/LoadingSkeleton";
 
 
 const Landing = () => {
-  const { data: categoryCourseData, isFetching } = useGetTopCateogryAndCoursesQuery();
-
+  const { data: courseCategoryData, isFetching } = useGetTopCateogryAndCoursesQuery();
 
   return (
     <>
@@ -67,9 +66,7 @@ const Landing = () => {
         </div>
 
         {/* top categories */}
-        {
-          isFetching && <CategorySkeleton />
-        }
+        {isFetching && <CategorySkeleton />}
         <div className="mx-20 my-10">
           <div className="flex justify-between ">
             <h1 className="text-[22px] font-semibold text-gray-900 ">
@@ -78,8 +75,8 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {categoryCourseData?.categoryData?.length > 0 &&
-              categoryCourseData?.categoryData
+            {courseCategoryData?.categoryData?.length > 0 &&
+              courseCategoryData?.categoryData
                 ?.filter((_, index) => index <= 3)
                 .map((item, i) => {
                   return (
@@ -121,8 +118,8 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {categoryCourseData?.courseData.length > 0 &&
-              categoryCourseData.courseData
+            {courseCategoryData?.courseData?.length > 0 &&
+              courseCategoryData?.courseData
                 ?.filter((_, index) => index <= 3)
                 .map((item) => {
                   return (
@@ -167,7 +164,6 @@ const Landing = () => {
                 })}
           </div>
         </div>
-
 
       </HomepageLayout>
     </>

@@ -10,7 +10,10 @@ export const categoryAndCoursesApi = apiSlice.injectEndpoints({
                 method: "GET",
             }),
             transformErrorResponse: transformResponse,
-            providesTags: [RTK_TAGS.GET_CATEGORY_COURSES]
+            providesTags: [RTK_TAGS.GET_CATEGORY_COURSES],
+            transformResponse: (response) => {
+                return response?.data
+            }
         }),
     })
 })
