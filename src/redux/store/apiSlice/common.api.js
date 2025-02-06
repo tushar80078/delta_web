@@ -7,7 +7,7 @@ export const categoryAndCoursesApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getTopCateogryAndCourses: builder.query({
             query: () => ({
-                url: '/category-courses/top-category-courses',
+                url: '/common/top-category-courses',
                 method: "GET",
             }),
             transformErrorResponse: transformResponse,
@@ -18,7 +18,7 @@ export const categoryAndCoursesApi = apiSlice.injectEndpoints({
         }),
         getCourseDetailsById: builder.query({
             query: (data) => ({
-                url: `/category-courses/course/${data?.courseId}`,
+                url: `/common/course/${data?.courseId}`,
                 method: "GET",
             }),
             transformErrorResponse: (response) => {
