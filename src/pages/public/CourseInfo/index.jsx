@@ -1,21 +1,20 @@
 import HomepageLayout from "@/layout/homepage";
 import { useGetCourseDetailsByIdQuery } from "@/redux/store/apiSlice/common.api";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import { Card } from "@/components/ui/card";
 import { FaStar } from "react-icons/fa";
 import { MdLanguage } from "react-icons/md";
 import simple from "../../../assets/images/loginImage.png";
-import facebook from "../../../assets/images/Facebook_Logo.png";
-import Google from "../../../assets/images/google.png";
-import Microsoft from "../../../assets/images/google.png";
-
+import AddToCard from "./Components/AddToCard";
+import { courseDetailsTab } from "./constant";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const CourseDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [active, setActive] = useState(0);
 
   // Fetch course data
   const {
@@ -23,8 +22,6 @@ const CourseDetails = () => {
     isLoading,
     isFetching,
   } = useGetCourseDetailsByIdQuery({ courseId: id }, { skip: !id });
-
-  console.log(courseData);
 
   useEffect(() => {
     if (!id) {
@@ -35,26 +32,7 @@ const CourseDetails = () => {
   if (isLoading || isFetching) {
     return <div>Loading...</div>;
   }
-  const signInMethodsDetails = [
-    {
-      id: 1,
-      name: "Facebook",
-      image: facebook,
-      color: "blue",
-    },
-    {
-      id: 2,
-      name: "Google",
-      image: Google,
-      color: "red",
-    },
-    {
-      id: 3,
-      name: "Microsoft",
-      image: Microsoft,
-      color: "black",
-    },
-  ];
+  const ActiveTabComponent = courseDetailsTab[active]?.Component;
 
   return (
     <HomepageLayout>
@@ -82,7 +60,7 @@ const CourseDetails = () => {
             {" "}
             Introduction to {courseData?.data?.courseName}
           </h1>
-          <p className="text-gray-700  pr-40  py-3  leading-6 tracking-wider text-[16px]">
+          <p className="text-gray-700  pr-40  py-3  leading-6 tracking-wide text-[16px]">
             The React Course covers the fundamentals of React.js, including
             components, props, state management, and React Hooks. You'll learn
             how to build interactive UIs, manage application state efficiently,
@@ -117,57 +95,30 @@ const CourseDetails = () => {
         </div>
 
         <div className="h-[530px] w-[380px]  absolute right-16 top-24">
-          <Card className="h-[540px] w-[370px]">
-            <div className="h-[230px] p-3 ">
-              <img
-                src={simple}
-                alt=""
-                className=" h-full  w-full  rounded-lg"
-              />
-            </div>
+          <AddToCard />
+        </div>
+      </div>
 
-            <div className="p-3 flex gap-4 items-center">
-              <span className="text-2xl font-semibold text-gray-800">
-                $49.5
-              </span>
-              <span className="text-xl  text-[#94A3B8] line-through">
-                $99.5
-              </span>
-              <span className="text-xl text-green-600">50% off</span>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Button className=" mx-3 w-[92%] py-6 bg-gray-900 text-white hover:bg-white hover:text-gray-700 border border-gray-700">
-                Add To Cart
+      <div className="  w-[70%] pl-24 mt-5">
+        {/* Navigation Tabs */}
+        <nav className=" flex gap-10">
+          {courseDetailsTab?.map((tab, index) => {
+            return (
+              <Button
+                key={index}
+                onClick={() => setActive(index)}
+                className={cn(
+                  "py-6 bg-white text-gray-600 px-12 text-sm border border-gray-200 shadow-none mt-3 font-medium hover:bg-blue-50",
+                  index == active && "bg-blue-100"
+                )}
+              >
+                {tab.name}
               </Button>
-
-              <Button className=" mx-3 w-[92%] py-6 bg-white text-gray-700 border border-gray-700 hover:bg-gray-900 hover:text-white">
-                {" "}
-                Buy Now{" "}
-              </Button>
-            </div>
-
-            <hr className="text-[#E2E8F0] h-1 mt-6" />
-
-            <div className="mt-3 ml-4">
-              <p>Share</p>
-              <div className="flex gap-3 my-2">
-                {signInMethodsDetails.map((item) => {
-                  return (
-                    <div
-                      key={item.id}
-                      className="h-12 w-12 border-4 border-gray-100 rounded-full flex justify-center items-center"
-                    >
-                      <img
-                        src={item.image}
-                        alt=""
-                        className="p-1 cursor-pointer"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </Card>
+            );
+          })}
+        </nav>
+        <div className="px-4 py-3">
+          {ActiveTabComponent && <ActiveTabComponent />}
         </div>
       </div>
     </HomepageLayout>

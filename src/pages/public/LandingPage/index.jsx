@@ -31,6 +31,8 @@ const Landing = () => {
   }
 
   const categoryData = categoryCourseData?.data?.categoryData;
+  console.log(categoryCourseData);
+
   const courseData = categoryCourseData?.data?.courseData;
 
   return (
