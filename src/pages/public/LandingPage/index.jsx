@@ -15,8 +15,7 @@ import {
 import { categories, courseRate } from "./constants";
 import { FaStar } from "react-icons/fa";
 import { CategorySkeleton, CourseSkeleton } from "./components/LoadingSkeleton";
-
-
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
   const { data: courseCategoryData, isFetching } = useGetTopCateogryAndCoursesQuery();
@@ -75,7 +74,8 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {courseCategoryData?.categoryData?.length > 0 &&
+            {
+              courseCategoryData?.categoryData?.length > 0 &&
               courseCategoryData?.categoryData
                 ?.filter((_, index) => index <= 3)
                 .map((item, i) => {
@@ -103,9 +103,10 @@ const Landing = () => {
                       </Card>
                     </div>
                   );
-                })}
-          </div>
-        </div>
+                })
+            }
+          </div >
+        </div >
 
         {isFetching && <CourseSkeleton />}
         {/* top courses */}
@@ -118,12 +119,17 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {courseCategoryData?.courseData?.length > 0 &&
+            {
+              courseCategoryData?.courseData?.length > 0 &&
               courseCategoryData?.courseData
                 ?.filter((_, index) => index <= 3)
                 .map((item) => {
                   return (
-                    <div key={item.id} className="">
+                    <div
+                      key={item.id}
+                      className=""
+                      onClick={() => navigate(`/course/${item.id}`)}
+                    >
                       <Card className="w-[300px] ">
                         <div className="w-full p-3">
                           <div className="w-[100%] py-2 h-[170px] ">
@@ -161,11 +167,11 @@ const Landing = () => {
                       </Card>
                     </div>
                   );
-                })}
-          </div>
-        </div>
-
-      </HomepageLayout>
+                })
+            }
+          </div >
+        </div >
+      </HomepageLayout >
     </>
   );
 };
