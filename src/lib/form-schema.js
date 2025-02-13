@@ -18,6 +18,15 @@ export const LoginSchema = yup.object().shape({
     password: passwordValidation,
 });
 
+export const SignupSchema = yup.object().shape({
+    firstName: yup.string().required("First name required"),
+    lastName: yup.string().required("Last name required"),
+    email: emailValidation,
+    password: passwordValidation,
+    confirmPassword: passwordValidation,
+    gender: yup.string().required('Gender required')
+});
+
 export const CreateCourseSchema = yup.object().shape({
     courseName: yup.string().required("Please enter Course Name"),
     courseDescription: yup.string().required("Please enter Description"),

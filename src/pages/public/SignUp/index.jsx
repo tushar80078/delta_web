@@ -3,229 +3,246 @@ import { Label } from "@radix-ui/react-label";
 import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LoginSchema } from "@/lib/form-schema";
-import { useLoginMutation } from "@/redux/store/apiSlice/auth.api";
+import { SignupSchema } from "@/lib/form-schema";
+import { useSignUpMutation } from "@/redux/store/apiSlice/auth.api";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FiArrowRight } from "react-icons/fi";
-import toast from "react-hot-toast";
 import HomepageLayout from "@/layout/homepage";
-import facebook from "../../../assets/images/Facebook_Logo.png";
-import Google from "../../../assets/images/google.png";
-import Microsoft from "../../../assets/images/microsoft.png";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import FieldError from "@/molecules/fieldError";
+import { useState } from "react";
+import useUserDetails from "@/hooks/useUserDtails";
+import FormError from "@/molecules/formError";
 
-
-export const signInMethodsDetails = [
-  {
-    id: 1,
-    name: "Facebook",
-    image: facebook,
-    color: "blue",
-  },
-  {
-    id: 2,
-    name: "Google",
-    image: Google,
-    color: "red",
-  },
-  {
-    id: 3,
-    name: "Microsoft",
-    image: Microsoft,
-    color: "black",
-  },
-];
-
+/*
+TODO:
+  - Something went wrong when the any form error occurs and then it distrubs the ui
+  - For password field add show hide option
+  - for confirm password add check is password and confirm password are correct
+  - Add text already have account please sign in
+*/
 const SignupPage = () => {
   const navigate = useNavigate();
-  const [loginFn, { error, }] = useLoginMutation();
-  console.log(error);
+  const { cartNavigationRoute, setCartNavigationRouteFn } = useUserDetails();
 
+  const [error, setError] = useState(false);
+
+  const [signUpFn] = useSignUpMutation();
   const {
     control,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(SignupSchema),
   });
 
+
   const onSubmit = async (data) => {
-    const respones = await loginFn(data);
-    if (respones.data) {
-      navigate("/");
-    } else {
-      toast.error(error);
+    try {
+
+      const response = await signUpFn({ ...data, confirmPassword: undefined, role: 'CourseUser' })
+
+      if (response?.error?.data?.success == false) {
+        setError(response?.error?.data?.err)
+        return;
+      }
+
+      if (cartNavigationRoute) {
+        navigate(cartNavigationRoute);
+        setCartNavigationRouteFn({ route: null })
+        return;
+      }
+      navigate('/')
+    } catch (error) {
+      console.log('[SIGNUP-ERROR]-', error);
     }
   };
 
   return (
     <HomepageLayout>
-      <div className="h-screen  flex   pt-16  ">
+      <div className="flex   h-[100vh]">
         {/* left Section*/}
-        <div className="bg-gray-400 w-2/5">
-          <img src={loginPageImage} alt="" className="" />
+        <div className="bg-gray-400 w-2/5  h-full  flex items-center justify-center overflow-hidden">
+          <img src={loginPageImage} alt="" className="w-full h-auto object-contain" />
         </div>
-        {/* right section*/}
 
-        <div className="w-3/5 flex justify-center  items-center">
-          <div className=" h-[55vh] w-[80%]  ">
-            <h1 className="text-center text-gray-900 text-3xl font-medium mb-5">
-              Sign in to your account
-            </h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="grid w-full items-center gap-4 ">
-                {/* firstname */}
-                <Label htmlFor="name" className=" font-medium">
-                  FullName
-                </Label>
-                <div className="flex items-center  space-x-14">
-                  <div className="flex flex-col space-y-1.5">
-                    <Controller
-                      control={control}
-                      name="firstname"
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          id="name"
-                          placeholder="First Name"
-                          type={"Text"}
-                          onChange={onChange}
-                          value={value}
-                          className="py-6  pr-40"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-1.5">
-                    <Controller
-                      control={control}
-                      name="lastname"
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          id="name"
-                          placeholder="Last Name"
-                          type={"Text"}
-                          onChange={onChange}
-                          value={value}
-                          className="py-6 pr-40"
-                        />
-                      )}
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name" className="mb-2 font-medium">
-                    Username
-                  </Label>
+        {/* right section*/}
+        <div className="w-3/5 flex flex-col pt-[10vh] justify-center h-full   items-center  ">
+
+          <h1 className="text-center text-gray-900 text-3xl font-medium mb-5">
+            Create Your Account
+          </h1>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="w-[70%]  justify-center items-center">
+            <div className="flex flex-col w-full  gap-4 ">
+              {/* firstname */}
+              <Label htmlFor="fullName" className=" font-medium">
+                Full Name
+              </Label>
+
+              <div className="flex items-center  space-x-6 w-full ">
+                <div className="flex flex-col w-full space-y-1.5">
                   <Controller
                     control={control}
-                    name="username"
+                    name="firstName"
                     render={({ field: { onChange, value } }) => (
                       <Input
-                        id="username"
-                        placeholder="Username "
+                        id="firstName"
+                        placeholder="John"
                         type={"text"}
                         onChange={onChange}
                         value={value}
-                        className="py-6"
+                        className="py-6 w-full"
                       />
                     )}
                   />
+                  {
+                    errors?.firstName?.message && <FieldError error={errors?.firstName?.message} />
+                  }
                 </div>
 
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name" className="mb-2 font-medium">
+
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Controller
+                    control={control}
+                    name="lastName"
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        id="lastName"
+                        placeholder="Doe"
+                        type={"text"}
+                        onChange={onChange}
+                        value={value}
+                        className="py-6 w-full "
+                      />
+                    )}
+                  />
+                  {
+                    errors?.lastName?.message && <FieldError error={errors?.lastName?.message} />
+                  }
+                </div>
+              </div>
+
+              <div className="flex items-center  space-x-6 w-full">
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="email" className="mb-2 font-medium">
                     Email
                   </Label>
 
                   <Controller
                     control={control}
-                    name="Email"
+                    name="email"
                     render={({ field: { onChange, value } }) => (
                       <Input
-                        id="Email"
-                        placeholder="Enter Password"
+                        id="email"
+                        placeholder="johndoe@example.com"
                         type="email"
                         onChange={onChange}
                         value={value}
-                        className="py-6"
+                        className="py-6 w-full"
                       />
                     )}
                   />
+                  {
+                    errors?.email?.message && <FieldError error={errors?.email?.message} />
+                  }
                 </div>
 
-                <div className="flex items-center space-x-14">
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name" className="mb-2 font-medium">
-                      Password
-                    </Label>
-                    <Controller
-                      control={control}
-                      name="password"
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          id="password"
-                          placeholder="Enter Password"
-                          type="email"
-                          onChange={onChange}
-                          value={value}
-                          className="py-6 pr-40"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="name" className="mb-2 font-medium">
-                      Confirm Password
-                    </Label>
-                    <Controller
-                      control={control}
-                      name="password"
-                      render={({ field: { onChange, value } }) => (
-                        <Input
-                          id="password"
-                          placeholder="Confirm Password"
-                          type="email"
-                          onChange={onChange}
-                          value={value}
-                          className="py-6 pr-40"
-                        />
-                      )}
-                    />
-                  </div>{" "}
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="gender" className="mb-2 font-medium">
+                    Gender
+                  </Label>
+
+                  <Controller
+                    control={control}
+                    name="gender"
+                    render={({ field: { onChange, value } }) => (
+                      <Select onValueChange={onChange} value={value}>
+                        <SelectTrigger className="py-6 w-full">
+                          <SelectValue placeholder="Gender" />
+                        </SelectTrigger>
+                        <SelectContent >
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {
+                    errors?.gender?.message && <FieldError error={errors?.gender?.message} />
+                  }
                 </div>
 
-                <div>
-                  <Button className="bg-gray-900 py-6 border hover:bg-white hover:border-gray-600 hover:text-gray-700 text-white font-medium">
-                    Create Account <FiArrowRight />
-                  </Button>
+              </div>
+
+
+
+              <div className="flex items-center  space-x-6 w-full">
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="password" className="mb-2 font-medium">
+                    Password
+                  </Label>
+                  <Controller
+                    control={control}
+                    name="password"
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        id="password"
+                        placeholder="********"
+                        type="password"
+                        onChange={onChange}
+                        value={value}
+                        className="py-6 w-full"
+                      />
+                    )}
+                  />
+                  {
+                    errors?.password?.message && <FieldError error={errors?.password?.message} />
+                  }
                 </div>
 
-                <div>
-                  <div className="flex  items-center ">
-                    <div className="bg-[#94A3B8]  h-[1px] w-2/4"></div>
-                    <span className="text-[#94A3B8] text-sm  flex w-1/4 ml-7 tracking-wider">
-                      Sign up with
-                    </span>
-                    <div className="bg-[#94A3B8] h-[1px] w-2/4"></div>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-3 mt-5">
-                    {signInMethodsDetails.map(({ name, id, image, color }) => {
-                      return (
-                        <div
-                          key={id}
-                          className="flex items-center gap-2 border border-[#B2B5C4] justify-center px-4 py-2 rounded-lg "
-                        >
-                          <img src={image} alt="" className="h-7" />
-                          <span style={{ color: `${color}` }}>{name}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="confirmPassword" className="mb-2 font-medium">
+                    Confirm Password
+                  </Label>
+                  <Controller
+                    control={control}
+                    name="confirmPassword"
+                    render={({ field: { onChange, value } }) => (
+                      <Input
+                        id="confirmPassword"
+                        placeholder="********"
+                        type="password"
+                        onChange={onChange}
+                        value={value}
+                        className="py-6 w-full"
+                      />
+                    )}
+                  />
+                  {
+                    errors?.confirmPassword?.message && <FieldError error={errors?.confirmPassword?.message} />
+                  }
                 </div>
               </div>
-            </form>
-          </div>
+
+              <div>
+                {error && <FormError error={error} />}
+              </div>
+
+              <div className="w-full ">
+                <Button
+                  className="bg-gray-900 py-6 border hover:bg-white hover:border-gray-600 hover:text-gray-700 text-white font-medium"
+                >
+                  Create Account
+                  <FiArrowRight />
+                </Button>
+              </div>
+            </div>
+
+          </form>
+
         </div>
       </div>
     </HomepageLayout>

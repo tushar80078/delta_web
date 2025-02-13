@@ -9,11 +9,12 @@ import { useLoginMutation } from "@/redux/store/apiSlice/auth.api";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FiArrowRight } from "react-icons/fi";
-import toast from "react-hot-toast";
 import HomepageLayout from "@/layout/homepage";
 import facebook from "../../../assets/images/Facebook_Logo.png";
 import Google from "../../../assets/images/google.png";
 import Microsoft from "../../../assets/images/microsoft.png";
+import { useState } from "react";
+import useUserDetails from "@/hooks/useUserDtails";
 
 
 export const signInMethodsDetails = [
@@ -41,7 +42,9 @@ export const signInMethodsDetails = [
 const LoginPage = () => {
 
   const navigate = useNavigate();
-  const [loginFn, { error, isLoading }] = useLoginMutation();
+  const { cartNavigationRoute, setCartNavigationRouteFn } = useUserDetails();
+  const [loginFn, { isLoading }] = useLoginMutation();
+  const [loginError, seLoginError] = useState(false);
 
   const {
     control,
@@ -52,13 +55,29 @@ const LoginPage = () => {
   });
 
   const onSubmit = async (data) => {
-    const respones = await loginFn(data);
-    console.log(respones.data);
+    try {
+      const response = await loginFn(data);
 
-    if (respones.data) {
-      navigate("/");
-    } else {
-      toast.error(error);
+      if (response?.error?.data?.success == false) {
+        seLoginError(response?.error?.data?.err)
+        return;
+      }
+
+      if (response?.data?.data?.userData.role === 'Admin') {
+        navigate("/app/user-home");
+        return;
+      }
+
+
+
+      if (cartNavigationRoute) {
+        navigate(cartNavigationRoute);
+        setCartNavigationRouteFn({ route: null })
+        return;
+      }
+      navigate('/')
+    } catch (error) {
+      console.log('[SIGNIN-ERROR]-', error);
     }
   };
 

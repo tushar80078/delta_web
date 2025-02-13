@@ -4,7 +4,7 @@ import AuthenticatedRoutes from "./AuthRoutes";
 import Unauthorized from "../pages/public/Unauthorized";
 import useUserDetails from "@/hooks/useUserDtails";
 import LandingPage from "../pages/public/LandingPage/index"
-import CourseDetails from "@/pages/public/CourseInfo/CourseDetails";
+import CourseDetails from "@/pages/public/CourseInfo/index";
 
 const Root = () => {
   const { isLoggedIn, role } = useUserDetails();

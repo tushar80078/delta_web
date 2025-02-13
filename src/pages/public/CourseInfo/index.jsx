@@ -1,12 +1,12 @@
 import HomepageLayout from "@/layout/homepage";
 import { useGetCourseDetailsByIdQuery } from "@/redux/store/apiSlice/common.api";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaStar } from "react-icons/fa";
 import { MdLanguage } from "react-icons/md";
 import simple from "../../../assets/images/loginImage.png";
-import AddToCard from "./Components/AddToCard";
+import AddToCart from "./components/AddToCart";
 import { courseDetailsTab } from "./constant";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -32,10 +32,12 @@ const CourseDetails = () => {
   if (isLoading || isFetching) {
     return <div>Loading...</div>;
   }
+
   const ActiveTabComponent = courseDetailsTab[active]?.Component;
 
   return (
     <HomepageLayout>
+
       <div className="pt-20 pb-4 px-20 bg-gray-50 relative">
         <div className=" py-3 flex gap-4 items-center  ">
           <span
@@ -62,7 +64,7 @@ const CourseDetails = () => {
           </h1>
           <p className="text-gray-700  pr-40  py-3  leading-6 tracking-wide text-[16px]">
             The React Course covers the fundamentals of React.js, including
-            components, props, state management, and React Hooks. You'll learn
+            components, props, state management, and React Hooks. You`ll learn
             how to build interactive UIs, manage application state efficiently,
             and integrate APIs. The course also includes advanced topics like
             React Router, Redux, and performance optimization.
@@ -95,7 +97,7 @@ const CourseDetails = () => {
         </div>
 
         <div className="h-[530px] w-[380px]  absolute right-16 top-24">
-          <AddToCard />
+          <AddToCart />
         </div>
       </div>
 

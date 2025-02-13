@@ -1,9 +1,26 @@
-import React from "react";
 import { signInMethodsDetails } from "../constant";
 import { Card } from "@/components/ui/card";
 import simple from "../../../../assets/images/loginImage.png";
 import { Button } from "@/components/ui/button";
-const AddToCard = () => {
+import useUserDetails from "@/hooks/useUserDtails";
+import { useNavigate, useParams } from "react-router-dom";
+const AddToCart = () => {
+
+  const navigate = useNavigate();
+  const { id: courseId } = useParams();
+
+  const { isLoggedIn, setCartNavigationRouteFn } = useUserDetails();
+
+  const navigateToDesiredPage = () => {
+    if (isLoggedIn) {
+      // Call add to cart api
+      // and also navigate to cart page
+
+    } else {
+      setCartNavigationRouteFn({ route: `/course/${courseId}` });
+      navigate('/login');
+    }
+  }
   return (
     <Card className="h-[540px] w-[370px]">
       <div className="h-[230px] p-3 ">
@@ -16,7 +33,10 @@ const AddToCard = () => {
         <span className="text-xl text-green-600">50% off</span>
       </div>
       <div className="flex flex-col gap-3">
-        <Button className=" mx-3 w-[92%] py-6 bg-gray-900 text-white hover:bg-white hover:text-gray-700 border border-gray-700">
+        <Button
+          className=" mx-3 w-[92%] py-6 bg-gray-900 text-white hover:bg-white hover:text-gray-700 border border-gray-700"
+          onClick={() => navigateToDesiredPage()}
+        >
           Add To Cart
         </Button>
 
@@ -47,4 +67,4 @@ const AddToCard = () => {
   );
 };
 
-export default AddToCard;
+export default AddToCart;

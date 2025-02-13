@@ -19,6 +19,7 @@ const initialUserData =
 let initialState = {
     isLoggedIn: false,
     userDetails: initialUserData,
+    cartNavigationRoute: ''
 }
 
 export const userSlice = createSlice({
@@ -35,10 +36,14 @@ export const userSlice = createSlice({
             localStorage.removeItem("token");
         },
 
+        setCartNavigationRoute: (state, action) => {
+            state.cartNavigationRoute = action.payload;
+        },
+
     },
 });
 
 
-export const { loginUser, logOutUser } = userSlice.actions
+export const { loginUser, logOutUser, setCartNavigationRoute } = userSlice.actions
 
 export default userSlice.reducer
