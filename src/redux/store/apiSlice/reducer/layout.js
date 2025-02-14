@@ -18,6 +18,9 @@ const initialAdminLayoutDetails = {
     },
     course: {
         activeTab: ''
+    },
+    chapter: {
+        activeTab: ''
     }
 }
 
@@ -69,6 +72,9 @@ export const layoutSlice = createSlice({
         },
         setActiveCourseTab: (state, action) => {
             state.admin.course.activeTab = action.payload;
+        },
+        setActiveChapterTab: (state, action) => {
+            state.admin.chapter.activeTab = action.payload;
         }
     },
 });
@@ -81,7 +87,8 @@ export const {
     changePaginationReducer,
     setActiveCourseTab,
     changeCategoryPaginationReducer,
-    changeChapterPaginationReducer
+    changeChapterPaginationReducer,
+    setActiveChapterTab
 } = layoutSlice.actions
 
 export default layoutSlice.reducer

@@ -6,6 +6,7 @@ import CourseDetails from "../../pages/auth/Admin/Courses/CourseInformation/inde
 import CourseUserCart from "../../pages/auth/CourseUser/Cart/index"
 
 import { BookOpenText, Home, Shapes } from "lucide-react";
+import ChapterContent from "@/pages/auth/Admin/Courses/CourseInformation/CourseTabs/Chapters/ChapterContent";
 
 const authRoutes = [
   {
@@ -27,12 +28,20 @@ const authRoutes = [
     isShowOnSidebar: true,
   },
   {
-    path: "/courses/:courseId",  // Dynamic route for course detail
+    path: "/courses/:courseId",
     access: ["Admin"],
     description: "This is for viewing a specific course",
-    element: <CourseDetails />, // A new component for showing individual course details
+    element: <CourseDetails />,
     title: "Course Detail",
-    isShowOnSidebar: false,  // Set to false if you don't want it shown on sidebar
+    isShowOnSidebar: false,
+  },
+  {
+    path: "/courses/:courseId/:lessonId",
+    access: ["Admin"],
+    description: "This is for viewing a specific chapter",
+    element: <ChapterContent />,
+    title: "Chapter Detail",
+    isShowOnSidebar: false,
   },
   {
     path: "/category",

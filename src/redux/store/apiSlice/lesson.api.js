@@ -23,6 +23,14 @@ export const lessonApi = apiSlice.injectEndpoints({
             }),
             transformErrorResponse: transformResponse,
             providesTags: [RTK_TAGS.GET_CHAPTERS]
+        }),
+
+        getLessonById: builder.query({
+            query: ({ lessonId }) => ({
+                url: `/lessons/${lessonId}`,
+                method: "GET",
+            }),
+            transformErrorResponse: transformResponse,
         })
     })
 
@@ -31,5 +39,7 @@ export const lessonApi = apiSlice.injectEndpoints({
 export const {
     useCreateLessonMutation,
     useGetLessonsQuery,
-    useLazyGetLessonsQuery
+    useLazyGetLessonsQuery,
+    useGetLessonByIdQuery,
+    useLazyGetLessonByIdQuery
 } = lessonApi;
