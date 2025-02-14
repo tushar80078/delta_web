@@ -4,18 +4,25 @@ import simple from "../../../../assets/images/loginImage.png";
 import { Button } from "@/components/ui/button";
 import useUserDetails from "@/hooks/useUserDtails";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAddCourseToCartMutation } from "@/redux/store/apiSlice/student.api";
 const AddToCart = () => {
 
   const navigate = useNavigate();
   const { id: courseId } = useParams();
 
-  const { isLoggedIn, setCartNavigationRouteFn } = useUserDetails();
+  const { isLoggedIn, setCartNavigationRouteFn, data } = useUserDetails();
+  const [addCourseToCartFn] = useAddCourseToCartMutation();
 
-  const navigateToDesiredPage = () => {
+  const navigateToDesiredPage = async () => {
     if (isLoggedIn) {
+      console.log(`/${data?.id}/cart`)
       // Call add to cart api
       // and also navigate to cart page
+      const response = await addCourseToCartFn({ courseId: courseId, userId: data.id })
 
+      if (response?.data?.success) {
+        navigate(`/app/${data?.id}/cart`)
+      }
     } else {
       setCartNavigationRouteFn({ route: `/course/${courseId}` });
       navigate('/login');
@@ -23,8 +30,8 @@ const AddToCart = () => {
   }
   return (
     <Card className="h-[540px] w-[370px]">
-      <div className="h-[230px] p-3 ">
-        <img src={simple} alt="" className=" h-full  w-full  rounded-lg" />
+      <div className="h-[230px] m-3 rounded-lg overflow-hidden   ">
+        <img src={simple} alt="" className=" w-full h-auto object-contain rounded-lg " />
       </div>
 
       <div className="p-3 flex gap-4 items-center">

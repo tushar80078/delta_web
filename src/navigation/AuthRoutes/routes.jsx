@@ -2,7 +2,8 @@ import Unauthorized from "../../pages/public/Unauthorized";
 import Courses from "@/pages/auth/Admin/Courses";
 import Category from "@/pages/auth/Admin/Category";
 import UserHome from "../../pages/auth/Admin/HomePage";
-import CourseDetails from "../../pages/auth/Admin/Courses/CourseInformation/index"
+import CourseDetails from "../../pages/auth/Admin/Courses/CourseInformation/index";
+import CourseUserCart from "../../pages/auth/CourseUser/Cart/index"
 
 import { BookOpenText, Home, Shapes } from "lucide-react";
 
@@ -41,6 +42,15 @@ const authRoutes = [
     title: "Categories",
     icon: Shapes,
     isShowOnSidebar: true,
+  },
+  {
+    path: "/:userId/cart",
+    access: ["CourseUser"],
+    description: "This is for CourseUser Cart",
+    element: <CourseUserCart />,
+    title: "Cart",
+    icon: Shapes,
+    isShowOnSidebar: false,
   },
   {
     path: "/unauthorized",
