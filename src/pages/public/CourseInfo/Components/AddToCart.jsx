@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import useUserDetails from "@/hooks/useUserDtails";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAddCourseToCartMutation } from "@/redux/store/apiSlice/student.api";
+
 const AddToCart = () => {
 
   const navigate = useNavigate();

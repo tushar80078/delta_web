@@ -6,10 +6,11 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaStar } from "react-icons/fa";
 import { MdLanguage } from "react-icons/md";
 import simple from "../../../assets/images/loginImage.png";
-import AddToCart from "./components/AddToCart.jsx";
+// import AddToCart from "./components/AddToCart.jsx";
 import { courseDetailsTab } from "./constant";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import AddToCart from "./components/AddToCart";
 
 const CourseDetails = () => {
   const { id } = useParams();
