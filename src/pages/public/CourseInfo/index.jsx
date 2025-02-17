@@ -10,7 +10,7 @@ import simple from "../../../assets/images/loginImage.png";
 import { courseDetailsTab } from "./constant";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import AddToCart from "./components/AddToCart";
+import AddToCart from "@/pages/public/CourseInfo/components/AddToCart.jsx";
 
 const CourseDetails = () => {
   const { id } = useParams();
