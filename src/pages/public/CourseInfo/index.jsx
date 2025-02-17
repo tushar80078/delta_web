@@ -10,7 +10,7 @@ import simple from "../../../assets/images/loginImage.png";
 import { courseDetailsTab } from "./constant";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import AddToCart from "@/pages/public/CourseInfo/components/AddToCart";
+import Cart from "./components/Cart";
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -98,7 +98,7 @@ const CourseDetails = () => {
         </div>
 
         <div className="h-[530px] w-[380px]  absolute right-16 top-24">
-          <AddToCart />
+          <Cart />
         </div>
       </div>
 

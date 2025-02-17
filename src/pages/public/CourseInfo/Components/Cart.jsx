@@ -6,7 +6,7 @@ import useUserDetails from "@/hooks/useUserDtails";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAddCourseToCartMutation } from "@/redux/store/apiSlice/student.api";
 
-const AddToCart = () => {
+const Cart = () => {
 
   const navigate = useNavigate();
   const { id: courseId } = useParams();
@@ -75,4 +75,4 @@ const AddToCart = () => {
   );
 };
 
-export default AddToCart;
+export default Cart;
