@@ -1,10 +1,10 @@
 import facebook from "../../../assets/images/Facebook_Logo.png";
 import Google from "../../../assets/images/google.png";
 import Microsoft from "../../../assets/images/google.png";
-import Description from "@/pages/public/CourseInfo/components/Description";
-import Instructor from "@/pages/public/CourseInfo/components/Instructor";
-import Reviews from "@/pages/public/CourseInfo/components/Reviews";
-import Syllabus from "@/pages/public/CourseInfo/components/Syllabus";
+import Description from "@/pages/public/CourseInfo/comp/Description";
+import Instructor from "@/pages/public/CourseInfo/comp/Instructor";
+import Reviews from "@/pages/public/CourseInfo/comp/Reviews";
+import Syllabus from "@/pages/public/CourseInfo/comp/Syllabus";
 
 export const signInMethodsDetails = [
   {
