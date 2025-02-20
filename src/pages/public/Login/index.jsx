@@ -1,4 +1,3 @@
-
 import loginPageImage from "../../../assets/images/loginImage.png";
 import { Label } from "@radix-ui/react-label";
 import { Controller, useForm } from "react-hook-form";
@@ -15,7 +14,6 @@ import Google from "../../../assets/images/google.png";
 import Microsoft from "../../../assets/images/microsoft.png";
 import { useState } from "react";
 import useUserDetails from "@/hooks/useUserDtails";
-
 
 export const signInMethodsDetails = [
   {
@@ -38,9 +36,7 @@ export const signInMethodsDetails = [
   },
 ];
 
-
 const LoginPage = () => {
-
   const navigate = useNavigate();
   const { cartNavigationRoute, setCartNavigationRouteFn } = useUserDetails();
   const [loginFn, { isLoading }] = useLoginMutation();
@@ -59,25 +55,23 @@ const LoginPage = () => {
       const response = await loginFn(data);
 
       if (response?.error?.data?.success == false) {
-        seLoginError(response?.error?.data?.err)
+        seLoginError(response?.error?.data?.err);
         return;
       }
 
-      if (response?.data?.data?.userData.role === 'Admin') {
+      if (response?.data?.data?.userData.role === "Admin") {
         navigate("/app/user-home");
         return;
       }
 
-
-
       if (cartNavigationRoute) {
         navigate(cartNavigationRoute);
-        setCartNavigationRouteFn({ route: null })
+        setCartNavigationRouteFn({ route: null });
         return;
       }
-      navigate('/')
+      navigate("/");
     } catch (error) {
-      console.log('[SIGNIN-ERROR]-', error);
+      console.log("[SIGNIN-ERROR]-", error);
     }
   };
 
@@ -133,6 +127,15 @@ const LoginPage = () => {
                     )}
                   />
                 </div>
+                <p className="text-[15px] text-gray-700">
+                  New here?{" "}
+                  <span
+                    className="text-blue-500 font-medium hover:underline cursor-pointer"
+                    onClick={() => navigate("/signup")}
+                  >
+                    Sign up
+                  </span>
+                </p>
 
                 <div>
                   <Button
