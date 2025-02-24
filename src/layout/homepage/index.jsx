@@ -28,11 +28,18 @@ import { logOutUser } from "@/redux/store/apiSlice/reducer/user";
 import { resetLayoutReducer } from "@/redux/store/apiSlice/reducer/layout";
 import { purge } from "@/redux/store";
 import toast from "react-hot-toast";
+import { useGetTopCateogryAndCoursesQuery } from "@/redux/store/apiSlice/common.api";
+import { useEffect, useState } from "react";
+import SuggestionsList from "@/pages/public/LandingPage/components/Suggestions";
 
 const HomepageLayout = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoggedIn, data, role } = useUserDetails();
+  const [inputValue, setInputValue] = useState("");
+  const [Suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const logoutUser = async () => {
     try {
@@ -52,6 +59,48 @@ const HomepageLayout = ({ children }) => {
     }
   };
 
+  // Query data from API
+  const { data: courseCategoryData, isFetching } =
+    useGetTopCateogryAndCoursesQuery();
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  // Fetch and filter suggestions
+  const getSuggestions = async (query) => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      if (courseCategoryData?.courseData?.length > 0) {
+        const filtered = courseCategoryData.courseData.filter((item) =>
+          item.courseName.toLowerCase().includes(query.toLowerCase())
+        );
+        setSuggestions(filtered);
+      }
+    } catch (error) {
+      setError("Failed to fetch suggestions");
+      setSuggestions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSuggestionClick = (item) => {
+    setInputValue(item.courseName); // Fill input with the chosen suggestion
+    setSuggestions([]); // Clear suggestions after selection
+  };
+
+  // Update suggestions whenever inputValue changes
+  useEffect(() => {
+    if (inputValue.length > 1) {
+      getSuggestions(inputValue);
+    } else {
+      setSuggestions([]);
+    }
+  }, [inputValue]);
+
   return (
     <>
       <nav className="flex px-10 justify-between space-x-5  items-center py-2 h-[9vh] border-b fixed top-0 right-0 left-0 bg-white z-10 ">
@@ -65,13 +114,28 @@ const HomepageLayout = ({ children }) => {
 
         <h2 className="text-gray-700">Categories</h2>
 
-        <div className="w-[40%] flex items-center border border-gray-700 px-2 rounded-lg">
+        <div className="relative w-[40%] flex items-center border border-gray-700 px-2 rounded-lg">
           <CiSearch size={25} />
           <Input
             type="text"
-            className=" border-none focus-visible:border-none focus-visible:ring-0  text-base text-gray-700"
+            className="border-none focus-visible:border-none focus-visible:ring-0 text-base text-gray-700 z-10 px-4 py-2 w-full"
             placeholder="Search courses"
+            value={inputValue}
+            onChange={handleInputChange}
           />
+          {/* Suggestions positioned absolutely relative to the parent */}
+          <div className="absolute top-full left-0 right-0 z-20">
+            {Suggestions.length > 0 && (
+              <ul className="bg-white border border-gray-200 shadow-md mt-1 rounded-lg">
+                <SuggestionsList
+                  suggestions={Suggestions}
+                  dataKey="courseName"
+                  highlight={inputValue}
+                  onSuggestionClick={handleSuggestionClick}
+                />
+              </ul>
+            )}
+          </div>
         </div>
 
         <h2 className="text-gray-700" onClick={() => navigate("/teachers")}>
