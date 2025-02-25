@@ -3,6 +3,7 @@ import LandingPage from "../../pages/public/LandingPage/index";
 import LoginPage from "../../pages/public/Login/index";
 import SignupPage from "@/pages/public/SignUp/index";
 import CourseDetails from "@/pages/public/CourseInfo/index";
+import TecherInfo from "@/pages/public/TeacherInfo/index";
 
 const PublicRoutes = () => {
   return (
@@ -10,6 +11,8 @@ const PublicRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/teachers" element={<TecherInfo />} />
+
       <Route path="/course/:id" element={<CourseDetails />} />
 
       {/**-------------  Catch-all for unmatched routes -------------**/}

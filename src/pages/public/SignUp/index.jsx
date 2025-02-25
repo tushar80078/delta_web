@@ -9,7 +9,13 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FiArrowRight } from "react-icons/fi";
 import HomepageLayout from "@/layout/homepage";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import FieldError from "@/molecules/fieldError";
 import { useState } from "react";
 import useUserDetails from "@/hooks/useUserDtails";
@@ -37,25 +43,24 @@ const SignupPage = () => {
     resolver: yupResolver(SignupSchema),
   });
 
-
   const onSubmit = async (data) => {
     try {
 
       const response = await signUpFn({ ...data, confirmPassword: undefined, role: 'Student' })
 
       if (response?.error?.data?.success == false) {
-        setError(response?.error?.data?.err)
+        setError(response?.error?.data?.err);
         return;
       }
 
       if (cartNavigationRoute) {
         navigate(cartNavigationRoute);
-        setCartNavigationRouteFn({ route: null })
+        setCartNavigationRouteFn({ route: null });
         return;
       }
-      navigate('/')
+      navigate("/");
     } catch (error) {
-      console.log('[SIGNUP-ERROR]-', error);
+      console.log("[SIGNUP-ERROR]-", error);
     }
   };
 
@@ -64,17 +69,23 @@ const SignupPage = () => {
       <div className="flex   h-[100vh]">
         {/* left Section*/}
         <div className="bg-gray-400 w-2/5  h-full  flex items-center justify-center overflow-hidden">
-          <img src={loginPageImage} alt="" className="w-full h-auto object-contain" />
+          <img
+            src={loginPageImage}
+            alt=""
+            className="w-full h-auto object-contain"
+          />
         </div>
 
         {/* right section*/}
         <div className="w-3/5 flex flex-col pt-[10vh] justify-center h-full   items-center  ">
-
           <h1 className="text-center text-gray-900 text-3xl font-medium mb-5">
             Create Your Account
           </h1>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="w-[70%]  justify-center items-center">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-[70%]  justify-center items-center"
+          >
             <div className="flex flex-col w-full  gap-4 ">
               {/* firstname */}
               <Label htmlFor="fullName" className=" font-medium">
@@ -97,11 +108,10 @@ const SignupPage = () => {
                       />
                     )}
                   />
-                  {
-                    errors?.firstName?.message && <FieldError error={errors?.firstName?.message} />
-                  }
+                  {errors?.firstName?.message && (
+                    <FieldError error={errors?.firstName?.message} />
+                  )}
                 </div>
-
 
                 <div className="flex flex-col w-full space-y-1.5">
                   <Controller
@@ -118,9 +128,9 @@ const SignupPage = () => {
                       />
                     )}
                   />
-                  {
-                    errors?.lastName?.message && <FieldError error={errors?.lastName?.message} />
-                  }
+                  {errors?.lastName?.message && (
+                    <FieldError error={errors?.lastName?.message} />
+                  )}
                 </div>
               </div>
 
@@ -144,9 +154,9 @@ const SignupPage = () => {
                       />
                     )}
                   />
-                  {
-                    errors?.email?.message && <FieldError error={errors?.email?.message} />
-                  }
+                  {errors?.email?.message && (
+                    <FieldError error={errors?.email?.message} />
+                  )}
                 </div>
 
                 <div className="flex flex-col w-full space-y-1.5">
@@ -162,7 +172,7 @@ const SignupPage = () => {
                         <SelectTrigger className="py-6 w-full">
                           <SelectValue placeholder="Gender" />
                         </SelectTrigger>
-                        <SelectContent >
+                        <SelectContent>
                           <SelectItem value="Male">Male</SelectItem>
                           <SelectItem value="Female">Female</SelectItem>
                           <SelectItem value="Other">Other</SelectItem>
@@ -170,14 +180,11 @@ const SignupPage = () => {
                       </Select>
                     )}
                   />
-                  {
-                    errors?.gender?.message && <FieldError error={errors?.gender?.message} />
-                  }
+                  {errors?.gender?.message && (
+                    <FieldError error={errors?.gender?.message} />
+                  )}
                 </div>
-
               </div>
-
-
 
               <div className="flex items-center  space-x-6 w-full">
                 <div className="flex flex-col w-full space-y-1.5">
@@ -198,9 +205,9 @@ const SignupPage = () => {
                       />
                     )}
                   />
-                  {
-                    errors?.password?.message && <FieldError error={errors?.password?.message} />
-                  }
+                  {errors?.password?.message && (
+                    <FieldError error={errors?.password?.message} />
+                  )}
                 </div>
 
                 <div className="flex flex-col w-full space-y-1.5">
@@ -221,28 +228,31 @@ const SignupPage = () => {
                       />
                     )}
                   />
-                  {
-                    errors?.confirmPassword?.message && <FieldError error={errors?.confirmPassword?.message} />
-                  }
+                  {errors?.confirmPassword?.message && (
+                    <FieldError error={errors?.confirmPassword?.message} />
+                  )}
                 </div>
               </div>
+              <p className="text-[15px] text-gray-700">
+                Already have an account ?{" "}
+                <span
+                  className="text-blue-500 font-medium hover:underline cursor-pointer"
+                  onClick={() => navigate("/login")}
+                >
+                  Sign in
+                </span>
+              </p>
 
-              <div>
-                {error && <FormError error={error} />}
-              </div>
+              <div>{error && <FormError error={error} />}</div>
 
               <div className="w-full ">
-                <Button
-                  className="bg-gray-900 py-6 border hover:bg-white hover:border-gray-600 hover:text-gray-700 text-white font-medium"
-                >
+                <Button className="bg-gray-900 py-6 border hover:bg-white hover:border-gray-600 hover:text-gray-700 text-white font-medium">
                   Create Account
                   <FiArrowRight />
                 </Button>
               </div>
             </div>
-
           </form>
-
         </div>
       </div>
     </HomepageLayout>

@@ -19,13 +19,14 @@ import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
   const navigate = useNavigate();
-  const { data: courseCategoryData, isFetching } = useGetTopCateogryAndCoursesQuery();
+  const { data: courseCategoryData, isFetching } =
+    useGetTopCateogryAndCoursesQuery();
 
   return (
     <>
       <HomepageLayout>
         {/* hero-section */}
-        <div className="flex  items-center gap-[6rem] mx-20  pt-16">
+        <div className="flex  items-center gap-[6rem] mx-20  pt-24">
           {/* left section */}
           <div className=" px-2 mx-5  w-[620px]  ">
             <h1 className="text-5xl font-semibold ">
@@ -76,8 +77,7 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {
-              courseCategoryData?.categoryData?.length > 0 &&
+            {courseCategoryData?.categoryData?.length > 0 &&
               courseCategoryData?.categoryData
                 ?.filter((_, index) => index <= 3)
                 .map((item, i) => {
@@ -105,10 +105,9 @@ const Landing = () => {
                       </Card>
                     </div>
                   );
-                })
-            }
-          </div >
-        </div >
+                })}
+          </div>
+        </div>
 
         {isFetching && <CourseSkeleton />}
         {/* top courses */}
@@ -121,8 +120,7 @@ const Landing = () => {
             <button className="text-[14px] text-[#3B82F6]">See all</button>
           </div>
           <div className="grid grid-cols-4 space-x-4 justify-evenly my-5 ml-4">
-            {
-              courseCategoryData?.courseData?.length > 0 &&
+            {courseCategoryData?.courseData?.length > 0 &&
               courseCategoryData?.courseData
                 ?.filter((_, index) => index <= 3)
                 .map((item) => {
@@ -169,11 +167,10 @@ const Landing = () => {
                       </Card>
                     </div>
                   );
-                })
-            }
-          </div >
-        </div >
-      </HomepageLayout >
+                })}
+          </div>
+        </div>
+      </HomepageLayout>
     </>
   );
 };
