@@ -5,27 +5,21 @@ import { Star } from 'lucide-react';
 import courseimage from "@/assets/images/course_image.png"
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { loadStripe } from "@stripe/stripe-js";
-
-const stripePromise = loadStripe("pk_test_51PJTUESAQKRxrOBj14u9csD3fvnF4C1UCmc8DlIaJK7gleABZWaCSe9y7YmOsIVoZdTUKsllW4tCjyjHR3g9IRFl00BdK4K60u");
+import { useLazyPostCheckoutSessionQuery } from '@/redux/store/apiSlice/checkout.api';
 
 const CartPage = () => {
     const { data } = useUserDetails();
     const { data: cartCourses } = useGetCartCoursesByIdQuery({ userId: data?.id }, { skip: !data?.id });
+    const [checkoutSessionFn] = useLazyPostCheckoutSessionQuery();
 
     const handleCheckout = async () => {
         try {
-            const response = await fetch("http://localhost:8888/checkout/create-checkout-session", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    cartCourses: [], // Courses in cart
-                    userId: '', // Current logged-in user
-                }),
-            });
+            const response = await checkoutSessionFn({ cartCourses: cartCourses?.data?.cartCourses, userId: data?.id })
 
-            const { url } = await response.json();
-            window.location.href = url; // Redirect to Stripe checkout page
+            if (response?.data?.success) {
+                const url = response?.data?.data?.url
+                window.location.href = url;
+            }
         } catch (error) {
             console.error("Checkout Error:", error);
         }
