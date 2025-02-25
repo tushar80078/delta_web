@@ -63,7 +63,7 @@ const LoginPage = () => {
         return;
       }
 
-      if (response?.data?.data?.userData.role === 'Admin') {
+      if (response?.data?.data?.userData.role === 'Teacher') {
         navigate("/app/user-home");
         return;
       }

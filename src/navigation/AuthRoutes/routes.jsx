@@ -5,22 +5,22 @@ import UserHome from "../../pages/auth/Admin/HomePage";
 import CourseDetails from "../../pages/auth/Admin/Courses/CourseInformation/index";
 import CourseUserCart from "../../pages/auth/CourseUser/Cart/index"
 
-import { BookOpenText, Home, Shapes } from "lucide-react";
+import { BookOpenText, Gauge, Shapes } from "lucide-react";
 import ChapterContent from "@/pages/auth/Admin/Courses/CourseInformation/CourseTabs/Chapters/ChapterContent";
 
 const authRoutes = [
   {
     path: "/user-home",
-    access: ["Admin"],
+    access: ["Teacher"],
     description: "This is for when user login and see first page after login",
     element: <UserHome />,
     isShowOnSidebar: true,
-    icon: Home,
-    title: "Home",
+    icon: Gauge,
+    title: "Dashboard",
   },
   {
     path: "/courses",
-    access: ["Admin"],
+    access: ["Teacher"],
     description: "This is for courses",
     element: <Courses />,
     title: "Courses",
@@ -29,7 +29,7 @@ const authRoutes = [
   },
   {
     path: "/courses/:courseId",
-    access: ["Admin"],
+    access: ["Teacher"],
     description: "This is for viewing a specific course",
     element: <CourseDetails />,
     title: "Course Detail",
@@ -37,7 +37,7 @@ const authRoutes = [
   },
   {
     path: "/courses/:courseId/:lessonId",
-    access: ["Admin"],
+    access: ["Teacher"],
     description: "This is for viewing a specific chapter",
     element: <ChapterContent />,
     title: "Chapter Detail",
@@ -45,7 +45,7 @@ const authRoutes = [
   },
   {
     path: "/category",
-    access: ["Admin"],
+    access: ["Teacher"],
     description: "This is for Categories",
     element: <Category />,
     title: "Categories",
@@ -54,7 +54,7 @@ const authRoutes = [
   },
   {
     path: "/:userId/cart",
-    access: ["CourseUser"],
+    access: ["Student"],
     description: "This is for CourseUser Cart",
     element: <CourseUserCart />,
     title: "Cart",

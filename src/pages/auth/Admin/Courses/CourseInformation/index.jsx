@@ -6,15 +6,17 @@ import constants from "./constants";
 import useLayoutDetails from "@/hooks/useLayoutDetails";
 import { cn } from "@/lib/utils";
 import { useEffect, } from "react";
+import useUserDetails from "@/hooks/useUserDtails";
 
 const CourseInformation = () => {
     const navigate = useNavigate();
     const { courseId } = useParams();
     const { setActiveCourseTabFn, activeCourseTab } = useLayoutDetails();
+    const { data: userData } = useUserDetails();
 
     // Fetch course data
     const { data: courseData } = useGetCourseByIdQuery(
-        { courseId: courseId },
+        { courseId: courseId, teacherId: userData?.id },
         { skip: !courseId }
     );
 

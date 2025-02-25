@@ -16,10 +16,12 @@ import SelectComponent from "@/components/select";
 import toast from "react-hot-toast";
 import FieldError from "@/molecules/fieldError";
 import useLayoutDetails from "@/hooks/useLayoutDetails";
+import useUserDetails from "@/hooks/useUserDtails";
 
 const AddCourse = ({ onClose }) => {
   const { setActiveCourseCategoryFn } = useLayoutDetails();
   const [createCourseFn, { isLoading: isCreating }] = useCreateCourseMutation();
+  const { data: userData } = useUserDetails();
 
   const { data: categoryData, isLoading: isFetchingCategories } =
     useGetCategoriesQuery();
@@ -65,6 +67,7 @@ const AddCourse = ({ onClose }) => {
       formData.append("courseDescription", data.courseDescription);
       formData.append("isFree", data.isCourseFree == "true");
       formData.append("courseFees", parseFloat(data.courseFees) || 0.0);
+      formData.append("createdById", userData?.id);
 
       if (thumbnailImage) {
         formData.append("thumbnailImage", thumbnailImage);

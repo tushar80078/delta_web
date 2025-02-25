@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import useLayoutDetails from "@/hooks/useLayoutDetails";
+import useUserDetails from "@/hooks/useUserDtails";
 import { cn } from "@/lib/utils";
 import Heading from "@/molecules/heading"
 import { useGetCategoriesQuery } from "@/redux/store/apiSlice/category.api";
@@ -17,11 +18,13 @@ const Screen = () => {
     const navigate = useNavigate();
     const { activeCourseCategory, setActiveCourseCategoryFn, adminPagination, changePaginationFn } = useLayoutDetails();
     const [modalState, setModalState] = useState(false);
+    const { data: userData } = useUserDetails();
 
     const { data: courseData, isLoading } = useGetCoursesQuery({
         page: adminPagination?.page || 1,
         pageSize: adminPagination?.pageSize || 10,
         category: activeCourseCategory,
+        teacherId: userData?.id
     });
 
     const { data: categoryData, isLoading: isCategoryLoading } = useGetCategoriesQuery();

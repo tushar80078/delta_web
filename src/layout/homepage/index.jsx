@@ -32,7 +32,7 @@ const HomepageLayout = ({ children }) => {
     };
 
     const navigateToHome = () => {
-        if (role == 'Admin') {
+        if (role == 'Teacher') {
             navigate('/app/user-home')
         }
     }
@@ -61,18 +61,24 @@ const HomepageLayout = ({ children }) => {
 
                 <h2 className="text-gray-700">Teach on delta</h2>
 
-                <div className="flex">
-                    <FiShoppingCart size={25} />
-                    {
-                        isLoggedIn && <div>
-                            <Home
+                {
+                    isLoggedIn && <div className="flex">
+                        {
+                            role == 'Student' && <FiShoppingCart
                                 size={25}
-                                className="ml-10"
-                                onClick={() => navigateToHome()}
+                                className="ml-10 cursor-pointer"
+                                onClick={() => navigate(`/app/${data?.id}/cart`)}
                             />
-                        </div>
-                    }
-                </div>
+                        }
+
+
+                        <Home
+                            size={25}
+                            className="ml-10 cursor-pointer"
+                            onClick={() => navigateToHome()}
+                        />
+                    </div>
+                }
 
                 {
                     !isLoggedIn && <div className="flex items-center space-x-7">

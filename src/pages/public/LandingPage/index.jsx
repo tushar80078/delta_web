@@ -32,12 +32,13 @@ const Landing = () => {
               Unlock Your Potential with Delta
             </h1>
             <p className="text-[16px] py-5 text-gray-700 leading-relaxed">
-              Welcome to Byway, where learning knows no bounds. We believe that
-              education is the key to personal and professional growth, and
-              we&apos;re here to guide you on your journey to success.{" "}
+              Welcome to Byway, where learning knows no bounds.
+              We believe that education is the key to personal and professional growth,
+              and we&apos;re here to guide you on your journey to success. Whether you&apos;re a student,
+              professional, or lifelong learner, our cutting-edge Learning Management System is designed to elevate your learning experience.
             </p>
             <Button className="border-none py-6 my-3 text-base bg-blue-500 ">
-              Start your instructor journey
+              Start your journey.
             </Button>
           </div>
           {/* right section */}

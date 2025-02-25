@@ -41,7 +41,7 @@ const SignupPage = () => {
   const onSubmit = async (data) => {
     try {
 
-      const response = await signUpFn({ ...data, confirmPassword: undefined, role: 'CourseUser' })
+      const response = await signUpFn({ ...data, confirmPassword: undefined, role: 'Student' })
 
       if (response?.error?.data?.success == false) {
         setError(response?.error?.data?.err)

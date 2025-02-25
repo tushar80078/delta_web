@@ -17,7 +17,7 @@ export const courseApi = apiSlice.injectEndpoints({
         }),
         getCourses: builder.query({
             query: (data) => ({
-                url: "/course/getCourses",
+                url: `/course/getCourses/${data?.teacherId}`,
                 method: "POST",
                 body: data,
             }),
@@ -29,7 +29,7 @@ export const courseApi = apiSlice.injectEndpoints({
         }),
         getCourseById: builder.query({
             query: (data) => ({
-                url: `/course/${data?.courseId}`,
+                url: `/course/${data?.teacherId}/${data?.courseId}`,
                 method: "GET",
             }),
             transformErrorResponse: (response) => {
